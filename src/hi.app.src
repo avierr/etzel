@@ -1,0 +1,16 @@
+{application, hi, [
+	{description, ""},
+	{vsn, "0.1.0"},
+	{id, "git"},
+	{modules, []},
+	{registered, []},
+	{applications, [
+		kernel,
+		stdlib,
+		cowboy,
+		jiffy,
+		servox
+	]},
+	{mod, {hi_app, []}},
+	{env, []}
+]}.
