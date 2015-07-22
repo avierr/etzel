@@ -8,8 +8,7 @@
 		kernel,
 		stdlib,
 		cowboy,
-		jiffy,
-		servox
+		jiffy
 	]},
 	{mod, {hi_app, []}},
 	{env, []}

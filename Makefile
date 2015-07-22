@@ -1,3 +1,3 @@
 PROJECT = hi
-DEPS = cowboy jiffy servox
+DEPS = cowboy jiffy 
 include erlang.mk

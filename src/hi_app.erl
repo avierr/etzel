@@ -5,7 +5,7 @@
 -export([stop/1]).
 
 start(_Type, _Args) ->
-    spawn(servox,starten,[]),
+    spawn(qin,starten,[]),
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
                 {"/connect/",ws_handler, []}
