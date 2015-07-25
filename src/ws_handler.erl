@@ -19,11 +19,14 @@ websocket_init(_, Req, _Opts) ->
 
 websocket_handle({text, Data}, Req, State) ->
     io:format("~p",[self()]),
-    Map=jiffy:decode(Data,[return_maps]),
-    Map=Map,
-	{reply, {text, Data}, Req, State};
+    qin:select_task(Data),
+    Data=Data,
+    Result="Okey",
+	{reply, {text, Result}, Req, State};
+	
 websocket_handle({binary, Data}, Req, State) ->
 	{reply, {binary, Data}, Req, State};
+	
 websocket_handle(_Frame, Req, State) ->
 	{ok, Req, State}.
 

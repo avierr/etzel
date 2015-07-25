@@ -6,7 +6,7 @@ var ws = new WebSocket("ws://localhost:8080/connect");
 ws.onopen = function()
 {
   // Web Socket is connected, send data using send()
-  ws.send('{"message": "to send"}');
+  ws.send('{"cmd": "SUBx"}');
   console.log("Message is sent...");
 };
 
