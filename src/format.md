@@ -2,7 +2,7 @@
 
 {
 "cmd":"SUB",
-"name": "xyz"
+"qname": "xyz"
 }
 
 
@@ -10,6 +10,6 @@
 
 {
 "cmd":"PUB",
-"name": "xyz",
+"qname": "xyz",
 "message": "your message"
 }
