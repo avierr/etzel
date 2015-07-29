@@ -6,6 +6,7 @@
 
 start(_Type, _Args) ->
     spawn(qin,starten,[]),
+    pg2:create(<<"__SLPL">>), %create a sleep list for proceses
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
                 {"/connect/",ws_handler, []}

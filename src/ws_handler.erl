@@ -32,7 +32,7 @@ websocket_handle(_Frame, Req, State) ->
 
 websocket_info(_Info, Req, State) ->
     io:format("websocket_info Info ~p~n", [_Info]),
-     {reply, {text, _Info}, Req, State};
+     {reply, {text, _Info}, Req, State}.
 
 websocket_terminate(_Reason, _Req, _State) ->
 	ok.
