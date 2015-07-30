@@ -1,3 +1,3 @@
 PROJECT = hi
-DEPS = cowboy jiffy 
+DEPS = cowboy jiffy dq
 include erlang.mk
