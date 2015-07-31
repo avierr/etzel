@@ -63,6 +63,29 @@ ParaComputeD.prototype.publish = function(queue,msg) {
         
 };
 
+
+ParaComputeD.prototype.fetch = function(queue) {
+
+    var Obj=new Object();
+    Obj.qname=queue;
+    Obj.cmd="FET";
+    var data=JSON.stringify(Obj);
+    
+    if(this.opened==false){
+    
+    //if connection is not open, 
+    //push it to Q & send it later using lateSend()
+        this.queue.push(data);
+    
+    }else{
+    
+        this.ws.send(data);
+    
+    }
+    
+        
+};
+
 ParaComputeD.prototype.subscribe = function(queue,callback) {
 
 

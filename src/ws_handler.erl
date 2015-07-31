@@ -19,9 +19,9 @@ websocket_init(_, Req, _Opts) ->
 
 websocket_handle({text, Data}, Req, State) ->
     io:format("~p",[self()]),
-    qin:select_task(Data),
+    %qin:select_task(Data),
     Data=Data,
-    Result="{'cmd':'ok'}",
+    Result=qin:select_task(Data),
 	{reply, {text, Result}, Req, State};
 	
 websocket_handle({binary, Data}, Req, State) ->

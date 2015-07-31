@@ -25,9 +25,31 @@ exec_task(<<"SUB">>,Map) ->
 %     io:format("\nSUB TO: ~s",[Qname]);   
 
 exec_task(<<"FET">>,Map) ->
-        Ret = <<"{OK.}">>,
-        io:format("FET cmd recvd.");
+        %Ret = <<"{'cmd':'ok'}">>,
+        io:format("FET cmd recvd."),
+        Qname=maps:get(<<"qname">>,Map),
 
+    PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
+    pg2:create(PQname),
+    case pg2:get_members(PQname) of
+        
+        [] -> 
+            <<"{'cmd':'nok','err':'Q not found'}">>;
+
+        Otherwise ->   
+            [Px|_]=Otherwise,
+            Ret=gen_server:call(Px,pop),
+            Y = case Ret of 
+                no_item -> 
+                    {[{<<"cmd">>, <<"nomsg">>}]};
+
+                    _ ->   
+
+                    {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"msg">>,Ret}]}
+            end,        
+            R = jiffy:encode(Y),
+            R = R
+      end;
 
 
 exec_task(<<"PUB">>,Map) ->
@@ -62,8 +84,10 @@ exec_task(<<"PUB">>,Map) ->
             gen_server:call(Px,{push,Msg})
       end,      
 
-    io:format("PUB cmd recvd.");
+    Ret = <<"{'cmd':'ok'}">>,
+    Ret=Ret;
 
 exec_task(_,_) ->
     io:format("Invalid Task.").    
+
 
