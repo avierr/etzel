@@ -24,10 +24,18 @@ exec_task(<<"SUB">>,Map) ->
 %     pg2:join(Qname,self()),
 %     io:format("\nSUB TO: ~s",[Qname]);   
 
+exec_task(<<"FET">>,Map) ->
+        Ret = <<"{OK.}">>,
+        io:format("FET cmd recvd.");
+
+
+
 exec_task(<<"PUB">>,Map) ->
     %get list of members from intersection(Q,sleepQ) 
     %and send a AWAKE message 
     Qname=maps:get(<<"qname">>,Map),
+    Msg=maps:get(<<"msg">>,Map),
+    pg2:create(Qname),
     L1 = pg2:get_members(Qname),
     L2 = pg2:get_members(<<"__SLPL">>),
     S1 = sets:from_list(L1),
@@ -36,6 +44,24 @@ exec_task(<<"PUB">>,Map) ->
     ListOfPids = sets:to_list(S3),
     Message = <<"{'cmd':'AWK'}">>,
     [Pid ! Message || Pid <- ListOfPids],
+    
+    %make pname that holds the queue
+    PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
+    pg2:create(PQname),
+    case pg2:get_members(PQname) of
+        
+        [] -> 
+            io:format("hi"),
+            {ok,P2}=tq:start_link(),
+            pg2:join(PQname,P2),
+            gen_server:call(P2,{push,Msg});
+
+        Otherwise ->   
+            io:format("bye"),
+            [Px|_]=Otherwise,
+            gen_server:call(Px,{push,Msg})
+      end,      
+
     io:format("PUB cmd recvd.");
 
 exec_task(_,_) ->

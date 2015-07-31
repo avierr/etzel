@@ -21,7 +21,7 @@ websocket_handle({text, Data}, Req, State) ->
     io:format("~p",[self()]),
     qin:select_task(Data),
     Data=Data,
-    Result="Okey",
+    Result="{'cmd':'ok'}",
 	{reply, {text, Result}, Req, State};
 	
 websocket_handle({binary, Data}, Req, State) ->
