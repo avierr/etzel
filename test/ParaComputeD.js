@@ -36,8 +36,16 @@ ParaComputeD.prototype.onopen = function(evt) {
 
 ParaComputeD.prototype.onmessage = function(evt) {
 
-  console.log(evt.data);
-        
+  //console.log(evt.data);
+  d=JSON.parse(evt.data);
+
+  if (typeof d.msg !== 'undefined') {
+    // the variable is defined
+    if(d.msg=="hi9999")
+  console.log("================Done==========");  
+}
+   
+
 };
 
 ParaComputeD.prototype.publish = function(queue,msg) {

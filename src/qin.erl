@@ -15,8 +15,8 @@ select_task(Data) ->
 exec_task(<<"SUB">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     pg2:create(Qname),
-    pg2:join(Qname,self()),
-    io:format("\nSUB TO: ~s",[Qname]);   
+    pg2:join(Qname,self());
+    %io:format("\nSUB TO: ~s",[Qname]);   
 
 % exec_task(<<"FET">>,Map) ->
 %     Qname=maps:get(<<"qname">>,Map),
@@ -26,7 +26,7 @@ exec_task(<<"SUB">>,Map) ->
 
 exec_task(<<"FET">>,Map) ->
         %Ret = <<"{'cmd':'ok'}">>,
-        io:format("FET cmd recvd."),
+        %io:format("FET cmd recvd."),
         Qname=maps:get(<<"qname">>,Map),
 
     PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
@@ -34,7 +34,7 @@ exec_task(<<"FET">>,Map) ->
     case pg2:get_members(PQname) of
         
         [] -> 
-            <<"{'cmd':'nok','err':'Q not found'}">>;
+            <<"{\"cmd\":\"nok\",\"err\":\"Q not found\"}">>;
 
         Otherwise ->   
             [Px|_]=Otherwise,
@@ -64,7 +64,7 @@ exec_task(<<"PUB">>,Map) ->
     S2 = sets:from_list(L2),
     S3 = sets:intersection(S1,S2),
     ListOfPids = sets:to_list(S3),
-    Message = <<"{'cmd':'AWK'}">>,
+    Message = <<"{\"cmd\":\"AWK\"}">>,
     [Pid ! Message || Pid <- ListOfPids],
     
     %make pname that holds the queue
@@ -73,18 +73,18 @@ exec_task(<<"PUB">>,Map) ->
     case pg2:get_members(PQname) of
         
         [] -> 
-            io:format("hi"),
+           % io:format("hi"),
             {ok,P2}=tq:start_link(),
             pg2:join(PQname,P2),
             gen_server:call(P2,{push,Msg});
 
         Otherwise ->   
-            io:format("bye"),
+            %io:format("bye"),
             [Px|_]=Otherwise,
             gen_server:call(Px,{push,Msg})
       end,      
 
-    Ret = <<"{'cmd':'ok'}">>,
+    Ret = <<"{\"cmd\":\"ok\"}">>,
     Ret=Ret;
 
 exec_task(_,_) ->

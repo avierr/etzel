@@ -18,9 +18,9 @@ websocket_init(_, Req, _Opts) ->
 	{ok, Req2, #state{}}.
 
 websocket_handle({text, Data}, Req, State) ->
-    io:format("~p",[self()]),
+    %io:format("~p",[self()]),
     %qin:select_task(Data),
-    Data=Data,
+    %Data=Data,
     Result=qin:select_task(Data),
 	{reply, {text, Result}, Req, State};
 	
@@ -31,7 +31,7 @@ websocket_handle(_Frame, Req, State) ->
 	{ok, Req, State}.
 
 websocket_info(_Info, Req, State) ->
-    io:format("websocket_info Info ~p~n", [_Info]),
+    %io:format("websocket_info Info ~p~n", [_Info]),
      {reply, {text, _Info}, Req, State}.
 
 websocket_terminate(_Reason, _Req, _State) ->
