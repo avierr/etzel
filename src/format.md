@@ -1,9 +1,18 @@
-###Subscribe
+###Subscribe to queue
 
 ```
 {
-"cmd":"SUB",
-"qname": "xyz"
+    "cmd":"SUB",
+    "qname": "$Q_NAME"
+}
+```
+
+###Fetch a message from Queue
+
+```
+{
+    "cmd":"FET",
+    "qname": "$Q_NAME"
 }
 ```
 
@@ -11,9 +20,59 @@
 
 ````
 {
-"cmd":"PUB",
-"qname": "xyz",
-"message": "your message"
+    "cmd":"PUB",
+    "qname": "$Q_NAME",
+    "message": "$message"
+}
+````
+
+###inform server that you are going to SLEEP
+
+````
+{
+    "cmd":"ISLP",
+    "qname": "$Q_NAME"
+}
+````
+
+--------------------------------
+##Response From server:
+
+
+###No Queue Found
+
+````
+{
+    "cmd":"nok",
+    "err": "Q_NOT_FOUND"
+}
+````
+
+###No Message Available in the requested Queue
+
+````
+{
+    "cmd":"nomsg",
+    "qname": "$Q_NAME"
+}
+````
+
+###Message Available in the requested Queue
+
+````
+{
+    "cmd":"msg",
+    "qname": "$Q_NAME",
+    "msg": "$message"
+}
+````
+
+###Wake up the client for a particular Queue
+
+````
+{
+    "cmd":"AWK",
+    "qname": "$Q_NAME"
 }
 ````
 

@@ -18,38 +18,32 @@ exec_task(<<"SUB">>,Map) ->
     pg2:join(Qname,self());
     %io:format("\nSUB TO: ~s",[Qname]);   
 
-% exec_task(<<"FET">>,Map) ->
-%     Qname=maps:get(<<"qname">>,Map),
-%     pg2:create(Qname),
-%     pg2:join(Qname,self()),
-%     io:format("\nSUB TO: ~s",[Qname]);   
-
 exec_task(<<"FET">>,Map) ->
         %Ret = <<"{'cmd':'ok'}">>,
         %io:format("FET cmd recvd."),
         Qname=maps:get(<<"qname">>,Map),
 
-    PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
-    pg2:create(PQname),
-    case pg2:get_members(PQname) of
-        
-        [] -> 
-            <<"{\"cmd\":\"nok\",\"err\":\"Q not found\"}">>;
+        PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
+        pg2:create(PQname),
+        case pg2:get_members(PQname) of
+            
+            [] -> 
+                <<"{\"cmd\":\"nok\",\"err\":\"Q_NOT_FOUND\"}">>;
 
-        Otherwise ->   
-            [Px|_]=Otherwise,
-            Ret=gen_server:call(Px,pop),
-            Y = case Ret of 
-                no_item -> 
-                    {[{<<"cmd">>, <<"nomsg">>}]};
+            Otherwise ->   
+                [Px|_]=Otherwise,
+                Ret=gen_server:call(Px,pop),
+                Y = case Ret of 
+                    no_item -> 
+                        {[{<<"cmd">>, <<"nomsg">>},{<<"qname">>,Qname}]};
 
-                    _ ->   
+                        _ ->   
 
-                    {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"msg">>,Ret}]}
-            end,        
-            R = jiffy:encode(Y),
-            R = R
-      end;
+                        {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"msg">>,Ret}]}
+                end,        
+                R = jiffy:encode(Y),
+                R = R
+          end;
 
 
 exec_task(<<"PUB">>,Map) ->
@@ -58,13 +52,18 @@ exec_task(<<"PUB">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     Msg=maps:get(<<"msg">>,Map),
     pg2:create(Qname),
+
+    %create sleep Q. name for THE queue
+    SQname = erlang:iolist_to_binary([Qname,<<"_S">>]),
+    pg2:create(SQname),
     L1 = pg2:get_members(Qname),
-    L2 = pg2:get_members(<<"__SLPL">>),
+    L2 = pg2:get_members(SQname),
     S1 = sets:from_list(L1),
     S2 = sets:from_list(L2),
     S3 = sets:intersection(S1,S2),
     ListOfPids = sets:to_list(S3),
-    Message = <<"{\"cmd\":\"AWK\"}">>,
+    OMessage = {[{<<"cmd">>, <<"awk">>},{<<"qname">>,Qname}]},
+    Message = jiffy:encode(OMessage),
     [Pid ! Message || Pid <- ListOfPids],
     
     %make pname that holds the queue

@@ -33,15 +33,16 @@ ParaComputeD.prototype.onopen = function(evt) {
         
 };
 
-
+j=1;
 ParaComputeD.prototype.onmessage = function(evt) {
 
-  //console.log(evt.data);
+  console.log(evt.data);
+  console.log(j++);
   d=JSON.parse(evt.data);
 
   if (typeof d.msg !== 'undefined') {
     // the variable is defined
-    if(d.msg=="hi9999")
+    if(d.msg=="hi999")
   console.log("================Done==========");  
 }
    
