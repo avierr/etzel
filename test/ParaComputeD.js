@@ -1,125 +1,106 @@
 var WebSocket = require('ws');
 
 
-ParaComputeD=function(host){
-       
-   this.ws = new WebSocket(host);
-   this.opened=false;
-   this.queue=[];
-   this.qbacks={};
-   this.ws.paraParent=this;
-   this.ws.onmessage=this.onmessage;
-   this.ws.onopen=this.onopen;
-   
-   
-};
+ParaComputeD = function(host) {
 
-ParaComputeD.prototype.lateSend=function(){
+    this.ws = new WebSocket(host);
+    this.opened = false;
+    this.queue = [];
+    this.qbacks = {};
+    this.ws.paraParent = this;
+    this.ws.onmessage = this.onmessage;
+    this.ws.onopen = this.onopen;
+    this.onopen=null;
 
-   while(this.queue.length>0){
-   
-    this.ws.send(this.queue.shift());
-   
-   }
 
 };
+
+
+ParaComputeD.prototype.isleep = function(qname) {
+   
+
+    var Obj = new Object();
+    Obj.qname = qname;
+    Obj.cmd = "ISLP";
+    var data = JSON.stringify(Obj);
+    console.log(Obj.qname + Obj.cmd);
+    this.ws.send(data);
+
+};
+//var sendserver=func
 
 
 ParaComputeD.prototype.onopen = function(evt) {
 
     //console.log(evt);
-  this.opened=true;
-  this.paraParent.lateSend();
-        
+    this.opened = true;
+    this.paraParent.onopen();
+    
+
 };
 
-j=1;
+j = 1;
 ParaComputeD.prototype.onmessage = function(evt) {
 
-  console.log(evt.data);
-  console.log(j++);
-  d=JSON.parse(evt.data);
+    console.log(evt.data);
+    console.log(j++);
+    d = JSON.parse(evt.data);
 
-  if (typeof d.msg !== 'undefined') {
-    // the variable is defined
-    if(d.msg=="hi999")
-  console.log("================Done==========");  
-}
-   
+    if (typeof d.msg !== 'undefined') {
+        // the variable is defined
 
-};
-
-ParaComputeD.prototype.publish = function(queue,msg) {
-
-    var Obj=new Object();
-    Obj.qname=queue;
-    Obj.msg=msg;
-    Obj.cmd="PUB";
-    var data=JSON.stringify(Obj);
-    
-    if(this.opened==false){
-    
-    //if connection is not open, 
-    //push it to Q & send it later using lateSend()
-        this.queue.push(data);
-    
-    }else{
-    
-        this.ws.send(data);
-    
+        console.log("================Done==========");
     }
-    
-        
+    if (d.cmd == "awk")
+        this.paraParent.fetch(d.qname); //"this" is inside ws.onmessage scope. we need parent scope which is in the constructor :)
+    if (d.cmd == 'nomsg') {
+        this.paraParent.isleep(d.qname);
+
+    }
+
+
 };
 
+ParaComputeD.prototype.publish = function(queue, msg) {
+
+    var Obj = new Object();
+    Obj.qname = queue;
+    Obj.msg = msg;
+    Obj.cmd = "PUB";
+    var data = JSON.stringify(Obj);
+    this.ws.send(data);
+
+};
+
+ParaComputeD.prototype.sendSubCmd = function(queue) {
+
+    var Obj = new Object();
+    Obj.qname = queue;
+    Obj.cmd = "SUB";
+    var data = JSON.stringify(Obj);
+    this.ws.send(data);
+
+};
 
 ParaComputeD.prototype.fetch = function(queue) {
 
-    var Obj=new Object();
-    Obj.qname=queue;
-    Obj.cmd="FET";
-    var data=JSON.stringify(Obj);
-    
-    if(this.opened==false){
-    
-    //if connection is not open, 
-    //push it to Q & send it later using lateSend()
-        this.queue.push(data);
-    
-    }else{
-    
-        this.ws.send(data);
-    
-    }
-    
-        
+    var Obj = new Object();
+    Obj.qname = queue;
+    Obj.cmd = "FET";
+    var data = JSON.stringify(Obj);
+    this.ws.send(data);
+
 };
 
-ParaComputeD.prototype.subscribe = function(queue,callback) {
+ParaComputeD.prototype.subscribe = function(queue, callback) {
 
+    this.sendSubCmd(queue); //we have to notify the server that we are subscribing
+    this.qbacks[queue] = callback;
+    this.fetch(queue);
 
-    this.qbacks[queue]=callback;
-    var Obj=new Object();
-    Obj.qname=queue;
-    Obj.cmd="SUB";
-     var data=JSON.stringify(Obj);
-    
-    if(this.opened==false){
-    
-    //if connection is not open, 
-    //push it to Q & send it later using lateSend()
-        this.queue.push(data);
-    
-    }else{
-    
-        this.ws.send(data);
-    
-    }
-        
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     module.exports = ParaComputeD;
 else
     window.ParaComputeD = ParaComputeD;
-

@@ -15,14 +15,16 @@ select_task(Data) ->
 exec_task(<<"SUB">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     pg2:create(Qname),
-    pg2:join(Qname,self());
+    pg2:join(Qname,self()),
+    R = jiffy:encode({[{<<"cmd">>, <<"oksub">>},{<<"qname">>,Qname}]}),    
+    R = R;
 
 exec_task(<<"ISLP">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     SQname = erlang:iolist_to_binary([Qname,<<"_S">>]),
     pg2:create(SQname),
     pg2:join(SQname,self()),
-    R = {[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]},
+    R = jiffy:encode({[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]}),
     R = R;
 
     %io:format("\nSUB TO: ~s",[Qname]);   

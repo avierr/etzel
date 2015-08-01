@@ -9,7 +9,15 @@ function mycallback(data){
 
 }
 
-pw.subscribe("test1",mycallback);
+
+pw.onopen=function(){
+
+
+    pw.subscribe("test1");
+
+}
+
+
 
 
 
