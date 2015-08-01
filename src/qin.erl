@@ -16,6 +16,15 @@ exec_task(<<"SUB">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     pg2:create(Qname),
     pg2:join(Qname,self());
+
+exec_task(<<"ISLP">>,Map) ->
+    Qname=maps:get(<<"qname">>,Map),
+    SQname = erlang:iolist_to_binary([Qname,<<"_S">>]),
+    pg2:create(SQname),
+    pg2:join(SQname,self()),
+    R = {[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]},
+    R = R;
+
     %io:format("\nSUB TO: ~s",[Qname]);   
 
 exec_task(<<"FET">>,Map) ->
@@ -35,6 +44,7 @@ exec_task(<<"FET">>,Map) ->
                 Ret=gen_server:call(Px,pop),
                 Y = case Ret of 
                     no_item -> 
+                        %self() ! jiffy:encode({[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]}),
                         {[{<<"cmd">>, <<"nomsg">>},{<<"qname">>,Qname}]};
 
                         _ ->   
@@ -65,6 +75,7 @@ exec_task(<<"PUB">>,Map) ->
     OMessage = {[{<<"cmd">>, <<"awk">>},{<<"qname">>,Qname}]},
     Message = jiffy:encode(OMessage),
     [Pid ! Message || Pid <- ListOfPids],
+    [pg2:leave(SQname,X) || X <- ListOfPids], 
     
     %make pname that holds the queue
     PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string

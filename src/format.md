@@ -57,6 +57,15 @@
 }
 ````
 
+###It is ok to go to sleep
+
+````
+{
+    "cmd":"okslp",
+    "qname": "$Q_NAME"
+}
+````
+
 ###Message Available in the requested Queue
 
 ````
