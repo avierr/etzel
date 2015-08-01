@@ -80,7 +80,7 @@
 
 ````
 {
-    "cmd":"AWK",
+    "cmd":"awk",
     "qname": "$Q_NAME"
 }
 ````
