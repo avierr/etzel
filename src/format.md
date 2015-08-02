@@ -1,3 +1,8 @@
+TodO:
+delayed insert..
+time out..
+expires..when to delete
+delete
 ###Subscribe to queue
 
 ```

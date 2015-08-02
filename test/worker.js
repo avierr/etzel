@@ -5,7 +5,7 @@ pw=new ParaComputeD("ws://localhost:8080/connect");
 
 function mycallback(data){
 
-    console.log(data);
+    console.log(data+"PPP");
 
 }
 
@@ -13,7 +13,7 @@ function mycallback(data){
 pw.onopen=function(){
 
 
-    pw.subscribe("test1");
+    pw.subscribe("test1",mycallback);
 
 }
 

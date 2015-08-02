@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>Pop Test</title>
+
+</head>
+
+<body>
+	
+	<center>
+		
+		<h2 id='status'>Waiting for Action ...!!</h2>
+
+		<button onclick="startit(this)">Click To Compute!</button>
+
+	</center>
+
+</body>
+<script type="text/javascript" src="ParaComputeD.js"></script>
+<script>
+	
+pw=new ParaComputeD("ws://"+location.hostname+":8080"+'/connect');
+
+pw.onopen=function(){
+	console.log("CON_OPEN");
+}
+
+elem=document.getElementById("status");
+m=0;
+
+function mycallback(data){
+
+	m=m+parseInt(data);
+	elem.innerHTML="Total: "+m;
+    //console.log(data+"PPP");
+
+}
+
+
+
+function startit(ele){
+
+	ele.disabled=true;
+    pw.subscribe("test1",mycallback);
+}
+
+
+
+
+
+</script>
+
+</html>

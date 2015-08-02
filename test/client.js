@@ -6,8 +6,9 @@ pw=new ParaComputeD("ws://localhost:8080/connect");
 
 pw.onopen=function(){
 
-    i=0;
-    pw.publish('test1','hi'+i);
+    // i=0;
+    // pw.publish('test1','hi');
+    pw.publishinsometime('test1','hi',5000);
 
 }
 

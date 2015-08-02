@@ -1,4 +1,5 @@
-var WebSocket = require('ws');
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+    var WebSocket = require('ws');
 
 
 ParaComputeD = function(host) {
@@ -57,6 +58,10 @@ ParaComputeD.prototype.onmessage = function(evt) {
         this.paraParent.isleep(d.qname);
 
     }
+    if(d.cmd=="msg"){
+        this.paraParent.qbacks[d.qname](d.msg);
+         this.paraParent.fetch(d.qname);
+    }
 
 
 };
@@ -99,6 +104,18 @@ ParaComputeD.prototype.subscribe = function(queue, callback) {
     this.fetch(queue);
 
 };
+ParaComputeD.prototype.publishinsometime = function(queue,msg,delay) {
+     
+     var Obj = new Object();
+    Obj.qname = queue;
+    Obj.msg = msg;
+    Obj.delay=delay;
+    Obj.cmd = "PUB";
+    var data = JSON.stringify(Obj);
+    this.ws.send(data);
+
+
+}
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     module.exports = ParaComputeD;
