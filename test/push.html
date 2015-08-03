@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>Push Test</title>
+
+</head>
+
+<body>
+	
+	<center>
+		
+		<h2 id='status'>Push 1000 Elements</h2>
+
+		<button onclick="startit()">Click To Start!</button>
+
+	</center>
+
+</body>
+<script type="text/javascript" src="ParaComputeD.js"></script>
+<script>
+	
+pw=new ParaComputeD("ws://"+location.hostname+":8080"+'/connect');
+pw.onopen=function(){
+	console.log("CON_OPEN");
+}
+
+
+function startit(){
+
+		var elem=document.getElementById("status");
+		for(i=1;i<=1000;i++){
+
+			elem.innerHTML=i+" inserted.";
+	    	pw.publish('test1',i);
+		}
+}
+
+</script>
+
+</html>
