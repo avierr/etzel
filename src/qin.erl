@@ -1,7 +1,7 @@
 
 
 -module(qin).
--export([starten/0,select_task/1,exec_task/2]).
+-export([starten/0,select_task/1,exec_task/2,real_publish/1]).
 %-on_load(starten/0).
 
 starten() ->
@@ -59,7 +59,29 @@ exec_task(<<"FET">>,Map) ->
 
 
 exec_task(<<"PUB">>,Map) ->
-    %get list of members from intersection(Q,sleepQ) 
+
+    Ts=maps:get(<<"delay">>,Map),
+
+    exec_publish(Ts,Map);
+    
+
+exec_task(_,_) ->
+    io:format("Invalid Task.").    
+
+
+exec_publish(0,Map)->
+            real_publish(Map);
+  
+
+
+exec_publish(Ts,Map)->
+        timer:apply_after(Ts*1000,qin,real_publish,[Map]),
+        Ret = <<"{\"cmd\":\"ok\"}">>,
+        Ret=Ret.
+
+
+real_publish(Map) ->
+%get list of members from intersection(Q,sleepQ) 
     %and send a AWAKE message 
     Qname=maps:get(<<"qname">>,Map),
     Msg=maps:get(<<"msg">>,Map),
@@ -97,9 +119,7 @@ exec_task(<<"PUB">>,Map) ->
       end,      
 
     Ret = <<"{\"cmd\":\"ok\"}">>,
-    Ret=Ret;
+    Ret=Ret.
 
-exec_task(_,_) ->
-    io:format("Invalid Task.").    
 
 
