@@ -16,6 +16,11 @@ start(_Type, _Args) ->
     {ok, _} = cowboy:start_http(my_http_listener, 100, [{port, 8080}],
         [{env, [{dispatch, Dispatch}]}]
     ),
+
+
+    {ok, Pid} = cowdb:open("primary.db"),
+    register(pdb,Pid), % Init primary DB
+
 	hi_sup:start_link().
 
 stop(_State) ->
