@@ -18,8 +18,8 @@ start(_Type, _Args) ->
     ),
 
 
-    % {ok, Pid} = cowdb:open("primary.db"),
-    % register(pdb,Pid), % Init primary DB
+    {ok,_} = filegen:start(),
+    %register(pdb, Ref), % Init primary DB
 
 	hi_sup:start_link().
 

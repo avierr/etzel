@@ -110,12 +110,12 @@ real_publish(Map) ->
            % io:format("hi"),
             {ok,P2}=tq:start_link(),
             pg2:join(PQname,P2),
-            gen_server:call(P2,{push,Msg});
+            gen_server:call(P2,{push,Msg,Qname});
 
         Otherwise ->   
             %io:format("bye"),
             [Px|_]=Otherwise,
-            gen_server:call(Px,{push,Msg})
+            gen_server:call(Px,{push,Msg,Qname})
       end,      
 
     Ret = <<"{\"cmd\":\"ok\"}">>,

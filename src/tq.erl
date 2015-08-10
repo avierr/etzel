@@ -6,23 +6,24 @@
 	start_link/0]).
 
 init([])->
-      {ok, {queue:new(), 0}}.
+      {ok, {queue:new(), 0,0,0}}.
 
 start_link() -> gen_server:start_link(?MODULE, [], []).
  
-handle_call({push, Item}, _From, {MyQueue, Len}) ->
+handle_call({push, Item, Qname}, _From, {MyQueue, Len,H,T}) ->
 	%L=queue:to_list(MyQueue),
 	%io:format("T ~w ",[L]),
-    {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
+    gen_server:call(whereis(filegen),{push,Qname,Item,H}),
+    {reply, ok, {queue:in(Item, MyQueue), Len + 1,H+1,T}};
  
-handle_call(pop, _From, {MyQueue, Len})->
+handle_call(pop, _From, {MyQueue, Len,H,T})->
     case queue:out(MyQueue) of
         {{value, Item}, Q} ->
         %	L=queue:to_list(Q),
 	%io:format("T ~w ",[L]),
            {reply, Item, {Q, Len - 1}};
         {empty, Q} ->
-           {reply, no_item, {Q, Len}}
+           {reply, no_item, {Q, Len,H,T}}
      end.      
 
 handle_cast(_Msg, State) ->

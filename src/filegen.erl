@@ -24,15 +24,18 @@ state() ->
 %% Server implementation, a.k.a.: callbacks
 
 init([]) ->
-  say("init", []),
-  {ok, {whereis(pdb),0,0}}.
+  say("\n Disk Persistance Server Initiated \n", []),
+  {ok, Ref} = eleveldb:open("ldt", [{create_if_missing, true}]),
+  {ok, {Ref}}.
 
 %    cowdb:put(whereis(pdb), , 1).
 
-% handle_call({push, Queue,Item}, _From, {Pid, Len}) ->
-%   Qkey = erlang:iolist_to_binary([Queue,<<"_S">>]),
-%   cowdb:put(whereis(pdb), , Item),
-%     {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
+handle_call({push, Queue,Item,Head}, _From, {Ref}) ->
+  Qkey = erlang:iolist_to_binary([Queue,<<Head:64>>]),
+  QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
+  eleveldb:put(Ref, Qkey, Item, []),
+  eleveldb:put(Ref, QHead, <<Head:64>>, []),
+  {reply, ok, {Ref}};
 
 handle_call(stop, _From, State) ->
   say("stopping by ~p, state was ~p.", [_From, State]),
