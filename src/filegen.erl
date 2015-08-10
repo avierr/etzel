@@ -29,10 +29,10 @@ init([]) ->
 
 %    cowdb:put(whereis(pdb), , 1).
 
-handle_call({push, Queue,Item}, _From, {Pid, Len}) ->
-  Qkey = erlang:iolist_to_binary([Queue,<<"_S">>]),
-  cowdb:put(whereis(pdb), , Item),
-    {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
+% handle_call({push, Queue,Item}, _From, {Pid, Len}) ->
+%   Qkey = erlang:iolist_to_binary([Queue,<<"_S">>]),
+%   cowdb:put(whereis(pdb), , Item),
+%     {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
 
 handle_call(stop, _From, State) ->
   say("stopping by ~p, state was ~p.", [_From, State]),

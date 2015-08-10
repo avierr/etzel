@@ -9,7 +9,8 @@
 		stdlib,
 		cowboy,
 		jiffy,
-		cowdb
+		eleveldb
+		
 	]},
 	{mod, {hi_app, []}},
 	{env, []}
