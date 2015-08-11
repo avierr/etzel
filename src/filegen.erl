@@ -33,17 +33,17 @@ load_from_disk(I,Counter) ->
     case Counter==0 of
 
       true -> 
-                  X=eleveldb:iterator_move(I, <<>>),
+                  {X,Y}=eleveldb:iterator_move(I, <<>>),
                     io:format("\n ~w \n",[X]);
       false ->
-                  X=eleveldb:iterator_move(I, next),
+                  {X,Y}=eleveldb:iterator_move(I, next),
                     io:format("\n ~w \n",[X])
     end,
 
 
                   
 
-    case Counter>100 of
+    case X!=ok of
         true ->
            1=1;
         false ->
@@ -59,17 +59,16 @@ handle_call(lfd, _From, {Ref}) ->
 
 
 handle_call({push, Queue,Item,Tail}, _From, {Ref}) ->
-  QKey = erlang:iolist_to_binary([Queue,integer_to_binary(Tail)]),
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,integer_to_binary(Tail)]),
   QTail = erlang:iolist_to_binary([Queue,<<"T">>]),
   io:format("\n ~w ~w ~w \n",[QKey, QTail, Item]),
-  eleveldb:put(Ref, QTail, integer_to_binary(Tail), []),
-  eleveldb:put(Ref, QKey,  erlang:iolist_to_binary([Item]), []),
-
+  eleveldb:put(Ref, QKey, erlang:iolist_to_binary([Item]), []),
+  eleveldb:put(Ref, QTail,integer_to_binary(Tail), []),
 
   case Tail  of
     0 ->
         QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
-        eleveldb:put(Ref, QHead, integer_to_binary(0), []);
+        eleveldb:put(Ref, QHead,integer_to_binary(0), []);
     _ -> 1=1
   end,
 
@@ -79,12 +78,12 @@ handle_call({pop, Queue, Head}, _From, {Ref}) ->
 
   %delete record
   THead=Head-1,
-  QKey = erlang:iolist_to_binary([Queue,<<"*">>,integer_to_binary(THead)]),
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,<<THead:64>>]),
   eleveldb:delete(Ref, QKey,[]),
 
   %increment Head 
   QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
-  eleveldb:put(Ref, QHead, integer_to_binary(Head), []),
+  eleveldb:put(Ref, QHead, <<Head:64>>, []),
 
   {reply, ok, {Ref}};
 
