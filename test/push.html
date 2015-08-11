@@ -27,7 +27,7 @@ pw.onopen=function(){
 function startit(){
 
 		var elem=document.getElementById("status");
-		for(i=1;i<=1000;i++){
+		for(i=1;i<=10;i++){
 
 			elem.innerHTML=i+" inserted.";
 	    	pw.publish('test1',i);
