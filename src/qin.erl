@@ -43,7 +43,7 @@ exec_task(<<"FET">>,Map) ->
 
             Otherwise ->   
                 [Px|_]=Otherwise,
-                Ret=gen_server:call(Px,pop),
+                Ret=gen_server:call(Px,{pop,Qname}),
                 Y = case Ret of 
                     no_item -> 
                         %self() ! jiffy:encode({[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]}),

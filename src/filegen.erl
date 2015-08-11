@@ -28,14 +28,65 @@ init([]) ->
   {ok, Ref} = eleveldb:open("ldt", [{create_if_missing, true}]),
   {ok, {Ref}}.
 
-%    cowdb:put(whereis(pdb), , 1).
+load_from_disk(I,Counter) ->
+    
+    case Counter==0 of
 
-handle_call({push, Queue,Item,Head}, _From, {Ref}) ->
-  Qkey = erlang:iolist_to_binary([Queue,<<Head:64>>]),
-  QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
-  eleveldb:put(Ref, Qkey, Item, []),
-  eleveldb:put(Ref, QHead, <<Head:64>>, []),
+      true -> 
+                  X=eleveldb:iterator_move(I, <<>>),
+                    io:format("\n ~w \n",[X]);
+      false ->
+                  X=eleveldb:iterator_move(I, next),
+                    io:format("\n ~w \n",[X])
+    end,
+
+
+                  
+
+    case Counter>100 of
+        true ->
+           1=1;
+        false ->
+            
+            load_from_disk(I,Counter+1)
+     end.          
+
+handle_call(lfd, _From, {Ref}) ->
+
+    {ok, I} = eleveldb:iterator(Ref, []),
+    load_from_disk(I,0),
   {reply, ok, {Ref}};
+
+
+handle_call({push, Queue,Item,Tail}, _From, {Ref}) ->
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,<<Tail:64>>]),
+  QTail = erlang:iolist_to_binary([Queue,<<"T">>]),
+  %io:format("\n ~w ~w ~w \n",[Qkey, QHead, Item]),
+  eleveldb:put(Ref, QKey, Item, []),
+  eleveldb:put(Ref, QTail, <<Tail:64>>, []),
+
+  case Tail  of
+    0 ->
+        QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
+        eleveldb:put(Ref, QHead, <<0:64>>, []);
+    _ -> 1=1
+  end,
+
+  {reply, ok, {Ref}};
+
+handle_call({pop, Queue, Head}, _From, {Ref}) ->
+
+  %delete record
+  THead=Head-1,
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,<<THead:64>>]),
+  eleveldb:delete(Ref, QKey,[]),
+
+  %increment Head 
+  QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
+  eleveldb:put(Ref, QHead, <<Head:64>>, []),
+
+  {reply, ok, {Ref}};
+
 
 handle_call(stop, _From, State) ->
   say("stopping by ~p, state was ~p.", [_From, State]),
@@ -75,3 +126,5 @@ say(Format) ->
   say(Format, []).
 say(Format, Data) ->
   io:format("~p:~p: ~s~n", [?MODULE, self(), io_lib:format(Format, Data)]).
+
+
