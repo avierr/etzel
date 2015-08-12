@@ -30,20 +30,20 @@ init([]) ->
 
 load_from_disk(I,Counter) ->
     
-    case Counter==0 of
+    Res = case Counter==0 of
 
       true -> 
-                  {X,Y}=eleveldb:iterator_move(I, <<>>),
+                  {X,_}=eleveldb:iterator_move(I, <<>>),
                     io:format("\n ~w \n",[X]);
       false ->
-                  {X,Y}=eleveldb:iterator_move(I, next),
+                  {X,_}=eleveldb:iterator_move(I, next),
                     io:format("\n ~w \n",[X])
     end,
 
 
                   
 
-    case X!=ok of
+    case Res /= ok of
         true ->
            1=1;
         false ->
