@@ -13,12 +13,15 @@ start_link() -> gen_server:start_link(?MODULE, [], []).
 handle_call({push, Item, Qname}, _From, {MyQueue, Len,H,T}) ->
 	%L=queue:to_list(MyQueue),
 	%io:format("T ~w ",[L]),
-    gen_server:call(whereis(filegen),{push,Qname,Item,T}),
-    {reply, ok, {queue:in(Item, MyQueue), Len + 1,H,T+1}};
+    Uid=gen_server:call(whereis(uidgen),getuid),
+    Itembin=iolist_to_binary([Uid,Item]),
+    gen_server:call(whereis(filegen),{push,Qname,Itembin,T}),
+    {reply, ok, {queue:in(Itembin, MyQueue), Len + 1,H,T+1}};
  
 handle_call({pop,Qname}, _From, {MyQueue, Len,H,T})->
     case queue:out(MyQueue) of
         {{value, Item}, Q} ->
+
 
            gen_server:call(whereis(filegen),{pop,Qname,H+1}),
            {reply, Item, {Q, Len,H+1,T}};

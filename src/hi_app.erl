@@ -19,7 +19,7 @@ start(_Type, _Args) ->
 
 
     {ok,_} = filegen:start(),
-    {ok,_} = uidgen:start(),
+    {ok,_} = uidgen:start_link(),
     %register(pdb, Ref), % Init primary DB
 
 	hi_sup:start_link().
