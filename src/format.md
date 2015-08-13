@@ -1,9 +1,6 @@
-TodO:
-delayed insert..
-time out..
-expires..when to delete
-delete
-###Subscribe to queue
+
+
+### Subscribe to queue
 
 ```
 {
@@ -12,7 +9,7 @@ delete
 }
 ```
 
-###Fetch a message from Queue
+### Fetch a message from Queue
 
 ```
 {
@@ -21,17 +18,29 @@ delete
 }
 ```
 
-###Publish
+### Publish
 
 ````
 {
     "cmd":"PUB",
     "qname": "$Q_NAME",
-    "message": "$message"
+    "message": "$message",
 }
 ````
+**Optional messages' parameters:**
 
-###inform server that you are going to SLEEP
+* `timeout`: After timeout (in seconds), item will be placed back onto queue.
+You must delete the message from the queue to ensure it does not go back onto the queue.
+ Default is 60 seconds. Minimum is 5 seconds.
+
+* `delay`: The item will not be available on the queue until this many seconds have passed.
+Default is 0 seconds. Maximum is 365 days(in seconds).
+
+* `expires`: How long in seconds to keep the item on the queue before it is deleted.
+Default is infinity.
+
+
+### inform server that you are going to SLEEP
 
 ````
 {
@@ -41,10 +50,10 @@ delete
 ````
 
 --------------------------------
-##Response From server:
+## Response From server:
 
 
-###No Queue Found
+### No Queue Found
 
 ````
 {
@@ -53,7 +62,7 @@ delete
 }
 ````
 
-###No Message Available in the requested Queue
+### No Message Available in the requested Queue
 
 ````
 {
@@ -62,7 +71,7 @@ delete
 }
 ````
 
-###It is ok to go to sleep
+### It is ok to go to sleep
 
 ````
 {
@@ -71,7 +80,7 @@ delete
 }
 ````
 
-###Message Available in the requested Queue
+### Message Available in the requested Queue
 
 ````
 {
@@ -81,7 +90,7 @@ delete
 }
 ````
 
-###Wake up the client for a particular Queue
+### Wake up the client for a particular Queue
 
 ````
 {
@@ -90,28 +99,72 @@ delete
 }
 ````
 
-###Algo for worker:
+### Algo for worker:
 
-####AWAKE_MODE:
+#### AWAKE_MODE:
 
     1. Req for job
     2. if no job go to SLEEP_MODE
     3. Process the Job.
     4. Go to Step 1.
     
-####SLEEP MODE:
+#### SLEEP MODE:
 
     1. Listen to Socket
         - If job==AVBL go to AWAKE_MODE
  
  
-###Algo for Server:
+### Algo for Server:
 
-ON_SUBSCRIBE:
-    - Attach PID to the Q.
+###### ON_SUBSCRIBE:
+   - Spawn a process for client & attach its PID to the group.
+   - Example: join_group(Qname,PID) 
     
-ON_PUBLISH:
-    - Broadcast Awake Signal to all processes in the "__SLPL" sleep list .    
+    
+###### ON_PUBLISH:
+   - IF NO DELAY -> CALL PUBLISH();
+   - Else: 
+     - CALL PUBLISH(); with delay
+     - write this info(key:value) to disk
+````
+PUBLISH()
+   - Broadcast Awake Signal to all processes in the sleep list.
+   - & Remove those processes from the sleep list.
+   - Spawn a process for the Queue-X if it does not exist
+   - & send the Element to this process.
+   - Now this Queue-X Process will accept the element
+   - & also write(async) the data to disk by generating required key:value  
+````
+###### ON_FET_REQUEST:
 
-ON_JOB_REQUEST
-    - Pop the top of the Queue & Send it to the requested Client      
+   - Pop the top of the Queue & Send it to the requested Client
+   - what to do for ack n delete?? for on n off queue ....thinking... :) 
+   - Update the status of the Element on Disk
+
+###### ON_ACK/DEL_REQUEST:
+
+  - Delete the element from disk
+  - what to do for element on n off queue...thinking :)
+
+### Queue format on disk
+The queue elements are stored in a key value store in the following format.
+````
+1. DATA
+
+let us divide DATA which is made up of a key and value.
+
+2. Key: Value
+
+divide them further
+
+3. Qname-uid:  Status|timeout|Delay|expires|Item
+
+Qname: Variable length text
+Uid: 14-18 bytes
+Status: 8 bits (The element is in the queue or waiting?)
+Timeout: 64 bits 
+delay: 64 bits
+expires: 64 bits
+Item: Variable lenght text
+
+````
