@@ -9,8 +9,7 @@
 		stdlib,
 		cowboy,
 		jiffy,
-		eleveldb,
-		uuid
+		eleveldb
 		
 	]},
 	{mod, {hi_app, []}},

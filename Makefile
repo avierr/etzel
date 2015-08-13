@@ -1,6 +1,5 @@
 PROJECT = hi
-DEPS = cowboy jiffy eleveldb erlang-uuid
-dep_erlang-uuid = git https://github.com/avtobiff/erlang-uuid.git master
+DEPS = cowboy jiffy eleveldb 
 include erlang.mk
 
 
