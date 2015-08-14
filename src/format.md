@@ -84,8 +84,10 @@ Default is infinity.
 
 ````
 {
-    "cmd":"msg",
+    "cmd": "msg",
     "qname": "$Q_NAME",
+    "uid": "$uid",
+    "error_count": "$count",
     "msg": "$message"
 }
 ````
@@ -137,14 +139,18 @@ PUBLISH()
 ````
 ###### ON_FET_REQUEST:
 
-   - Pop the top of the Queue & Send it to the requested Client
-   - what to do for ack n delete?? for on n off queue ....thinking... :) 
-   - Update the status of the Element on Disk
+   1. Pop the top of the Queue 
+   2. if the element matches with any element in the delete list: 
+      2.1. remove the element from the delete list.
+      2.2. Go to Step 1
+   3. else Send it to the requested Client 
+   4. increment the 'status' of the Element on Disk
+   5. CALL PUBLISH(element) WITH DELAY:60
 
 ###### ON_ACK/DEL_REQUEST:
 
   - Delete the element from disk
-  - what to do for element on n off queue...thinking :)
+  - PUSH the element to the delete list
 
 ### Queue format on disk
 The queue elements are stored in a key value store in the following format.
@@ -157,11 +163,11 @@ let us divide DATA which is made up of a key and value.
 
 divide them further
 
-3. Qname-uid:  Status|timeout|Delay|expires|Item
+3. Qname-uid:  Status|Delay|expires|Item
 
 Qname: Variable length text
 Uid: 14-18 bytes
-Status: 8 bits (The element is in the queue or waiting?)
+Status: 8 bits (Basically the error count)
 Timeout: 64 bits 
 delay: 64 bits
 expires: 64 bits
