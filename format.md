@@ -139,6 +139,7 @@ PUBLISH()
 ````
 ###### ON_FET_REQUEST:
 
+````
    1. Pop the top of the Queue 
    2. if the element matches with any element in the delete list: 
       2.1. remove the element from the delete list.
@@ -146,6 +147,7 @@ PUBLISH()
    3. else Send it to the requested Client 
    4. increment the 'status' of the Element on Disk
    5. CALL PUBLISH(element) WITH DELAY:60
+````
 
 ###### ON_ACK/DEL_REQUEST:
 
