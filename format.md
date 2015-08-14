@@ -165,11 +165,11 @@ let us divide DATA which is made up of a key and value.
 
 divide them further
 
-3. Qname-uid:  Status|Delay|expires|Item
+3. Qname-uid:  error_count|Delay|expires|Item
 
 Qname: Variable length text
 Uid: 14-18 bytes
-Status: 8 bits (Basically the error count)
+error_count: 8 bits 
 Timeout: 64 bits 
 delay: 64 bits
 expires: 64 bits
