@@ -58,19 +58,22 @@ handle_call(lfd, _From, {Ref}) ->
   {reply, ok, {Ref}};
 
 
-handle_call({push, Queue,Item,Tail}, _From, {Ref}) ->
-  QKey = erlang:iolist_to_binary([Queue,<<"*">>,integer_to_binary(Tail)]),
-  QTail = erlang:iolist_to_binary([Queue,<<"T">>]),
-  io:format("\n ~w ~w ~w \n",[QKey, QTail, Item]),
-  eleveldb:put(Ref, QKey, erlang:iolist_to_binary([Item]), []),
-  eleveldb:put(Ref, QTail,integer_to_binary(Tail), []),
+handle_call({push, Queue,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
 
-  case Tail  of
-    0 ->
-        QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
-        eleveldb:put(Ref, QHead,integer_to_binary(0), []);
-    _ -> 1=1
-  end,
+  Uid=gen_server:call(whereis(uidgen),getuid),
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,Uid]),
+
+  {Mega, Secs, _} = os:timestamp(),
+  Timestamp = Mega*1000000 + Secs,
+  TDelay = Timestamp + Delay,
+  TExpires = Timestamp + Expires,
+  QItem = erlang:iolist_to_binary([erlang:integer_to_binary(ErrorCount),
+                                   erlang:integer_to_binary(TDelay),
+                                   erlang:integer_to_binary(TExpires),
+                                   Item]),
+
+  io:format("\n ~w ~w  \n",[QKey, QItem]),
+  eleveldb:put(Ref, QKey, QItem, []),
 
   {reply, ok, {Ref}};
 
