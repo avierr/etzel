@@ -1,4 +1,4 @@
-PROJECT = hi
+PROJECT = etzel
 DEPS = cowboy jiffy eleveldb 
 include erlang.mk
 

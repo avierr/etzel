@@ -1,4 +1,4 @@
--module(hi_app).
+-module(etzel_app).
 -behaviour(application).
 
 -export([start/2]).
@@ -22,7 +22,7 @@ start(_Type, _Args) ->
     {ok,_} = uidgen:start_link(),
     %register(pdb, Ref), % Init primary DB
 
-	hi_sup:start_link().
+	etzel_sup:start_link().
 
 stop(_State) ->
 	ok.

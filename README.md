@@ -1,4 +1,4 @@
-# ParaComputeD
+# Etzel
 
 The program is currently under development. check back soon!
 
@@ -9,5 +9,14 @@ Acknowledge
 Disk Logging
 
 
- ./_rel/hi_release/bin/hi_release console
-python -m SimpleHTTPServer 9000
+ ./_rel/etzel_release/bin/etzel_release console
+
+
+````
+> cd test
+> python -m SimpleHTTPServer 9000
+
+Goto: http://localhost:9000/push.html 
+then Goto: http://localhost:9000/push.html
+
+````
