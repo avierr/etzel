@@ -153,7 +153,16 @@ PUBLISH()
   - Delete the element from disk
   - PUSH the element to the delete list
 
-### Queue format on disk
+### Queue Element format in Memory
+
+````
+error_count|expires|UidSize|uid|Item
+
+Size of each block:
+<<error_count:8>>,<<Expires:64>>,<<Uid_size:16>>,Uid,Msg
+````
+
+### Queue element format on disk
 The queue elements are stored in a key value store in the following format.
 ````
 1. DATA
