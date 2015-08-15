@@ -169,7 +169,6 @@ divide them further
 Qname: Variable length text
 Uid: 14-18 bytes
 error_count: 8 bits 
-Timeout: 64 bits 
 delay: 64 bits
 expires: 64 bits
 Item: Variable lenght text

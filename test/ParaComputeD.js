@@ -96,6 +96,17 @@ ParaComputeD.prototype.sendSubCmd = function(queue) {
 
 };
 
+ParaComputeD.prototype.acknowledge = function(queue,uid) {
+
+    var Obj = new Object();
+    Obj.qname = queue;
+    Obj.cmd = "ACK";
+    Obj.uid= uid;
+    var data = JSON.stringify(Obj);
+    this.ws.send(data);
+
+};
+
 ParaComputeD.prototype.fetch = function(queue) {
 
     var Obj = new Object();

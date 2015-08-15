@@ -19,6 +19,8 @@ start(_Type, _Args) ->
 
 
     {ok,_} = filegen:start(),
+    X=ets:new(etzel_delset, [public,set, named_table]),
+    io:format("\n ~w \n",[X]),
     {ok,_} = uidgen:start_link(),
     %register(pdb, Ref), % Init primary DB
 

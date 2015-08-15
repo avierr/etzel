@@ -23,6 +23,16 @@ exec_task(<<"SUB">>,Map) ->
     R = jiffy:encode({[{<<"cmd">>, <<"oksub">>},{<<"qname">>,Qname}]}),    
     R = R;
 
+
+
+exec_task(<<"ACK">>,Map) ->
+    Uid=maps:get(<<"uid">>,Map),
+    Qname=maps:get(<<"qname">>,Map),
+    ets:insert(etzel_delset, {Uid, ok}),
+    gen_server:call(whereis(filegen),{del,Qname,Uid}),
+    R = jiffy:encode({[{<<"cmd">>, <<"okack">>},{<<"uid">>,Uid},{<<"qname">>,Qname}]}),    
+    R=R;
+
 exec_task(<<"ISLP">>,Map) ->
     Qname=maps:get(<<"qname">>,Map),
     SQname = erlang:iolist_to_binary([Qname,<<"_S">>]),
@@ -48,33 +58,45 @@ exec_task(<<"FET">>,Map) ->
             Otherwise ->   
                 [Px|_]=Otherwise,
                 Ret=gen_server:call(Px,{pop}),
-                Y = case Ret of 
+                 case Ret of 
                     no_item -> 
                         %self() ! jiffy:encode({[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]}),
-                        {[{<<"cmd">>, <<"nomsg">>},{<<"qname">>,Qname}]};
+                        Z={[{<<"cmd">>, <<"nomsg">>},{<<"qname">>,Qname}]},
+                        jiffy:encode(Z);
+                    _ ->  
 
-                        _ ->   
+
                         %lets break the message: err_count(8)| expires(64b)|uidlen(16)|uid(Variable)|msg(Variable)
                         <<ErrorCount:8>> =  binary:part(Ret,0,1), %get error_count
                         <<Expires:64>> = binary:part(Ret,1,8),
                         <<Uidlen:16>> = binary:part(Ret,9,2), %get uidlen
                         Uid = binary:part(Ret,11,Uidlen), %get the uid
-                        MsgLen = byte_size(Ret)-(Uidlen+11),
-                        Msg = binary:part(Ret,Uidlen+11, MsgLen), %get the msg
-                        
-                        % get uidlen+uid+msg: 2bytes for uidlen+actual uidlen +msglen
-                        UidMsgBin = binary:part(Ret,9,2+Uidlen+MsgLen), 
 
-                        NewErrorCount=ErrorCount+1,
-                        MemItem=iolist_to_binary([<<NewErrorCount:8>>,<<Expires:64>>,UidMsgBin]),
-                        %increment error count on disk
-                        push_to_disk(Qname,Uid,NewErrorCount,0,Expires,Msg),
-                        timer:apply_after(60*1000,qin,real_publish,[Qname,MemItem]),
-                        {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"uid">>,Uid},{<<"msg">>,Msg}]}
-                end,        
-                R = jiffy:encode(Y),
-                R = R
-          end;
+                        case ets:lookup(etzel_delset,Uid) of
+
+                            [] ->
+
+                                MsgLen = byte_size(Ret)-(Uidlen+11),
+                                Msg = binary:part(Ret,Uidlen+11, MsgLen), %get the msg
+                                
+                                % get uidlen+uid+msg: 2bytes for uidlen+actual uidlen +msglen
+                                UidMsgBin = binary:part(Ret,9,2+Uidlen+MsgLen), 
+
+                                NewErrorCount=ErrorCount+1,
+                                MemItem=iolist_to_binary([<<NewErrorCount:8>>,<<Expires:64>>,UidMsgBin]),
+                                %increment error count on disk
+                                push_to_disk(Qname,Uid,NewErrorCount,0,Expires,Msg),
+                                timer:apply_after(60*1000,qin,real_publish,[Qname,MemItem]),
+                                Z = {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"uid">>,Uid},{<<"msg">>,Msg}]},
+                                R = jiffy:encode(Z),
+                                R = R;
+                            [{_,_}] ->
+                                    ets:delete(etzel_delset, Uid),
+                                    exec_task(<<"FET">>,Map)
+                        end            
+                end        
+
+        end;
 
 
 exec_task(<<"PUB">>,Map) ->

@@ -30,16 +30,59 @@ init([]) ->
 
 load_from_disk(I,Counter) ->
     
-    Res = case Counter==0 of
+    Fl = case Counter==0 of
 
       true -> 
-                  {X,_}=eleveldb:iterator_move(I, <<>>),
-                    io:format("\n ~w \n",[X]);
+                  <<>>;
       false ->
-                  {X,_}=eleveldb:iterator_move(I, next),
-                    io:format("\n ~w \n",[X])
+                   next
     end,
 
+   Res = case eleveldb:iterator_move(I, Fl) of
+      
+      {error,invalid_iterator} -> error;
+    
+      {A,Key,Val} ->
+        %io:format("\n ~w ~w ~w \n",[A,Key,Val]),
+        QnId=binary:split(Key,<<"*">>,[]),
+        [Qname,Uid]=QnId,
+        %[|_]=QnId,
+
+        io:format("\n ~w \n",[QnId]),
+
+        %E|DDDDDDDD|XXXXXXXX|Item(variable len)  
+        <<ErrorCount:8>> = binary:part(Val,0,1),
+        <<Delay:64>> = binary:part(Val,1,8),
+        <<Expires:64>> = binary:part(Val,9,8),
+
+        %get current UNIX TimeStamp
+        {Mega, Secs, _} = os:timestamp(),
+        Timestamp = Mega*1000000 + Secs,
+
+        %Calculate the new Delay
+        NDelay = case Timestamp > Delay of
+                    
+                    true -> 0;
+
+                    false -> Delay - Timestamp
+
+                  end,  
+
+        %insert to memory only if not expired
+
+        case Timestamp < Expires of
+
+            true ->
+              Uid_size = byte_size(Uid),
+              Msg = binary:part(Val,17,byte_size(Val)-(1+8+8)), %size(errc)+size(delay)+size(expires)
+              MemItem = iolist_to_binary([<<ErrorCount:8>>,<<Expires:64>>,<<Uid_size:16>>,Uid,Msg]),
+              io:format("\nN: ~w \n",[Msg]),
+              timer:apply_after(NDelay*1000,qin,real_publish,[Qname,MemItem]);
+            false -> expired
+         end,            
+
+        A=A
+    end,    
 
                   
 
@@ -47,7 +90,6 @@ load_from_disk(I,Counter) ->
         true ->
            1=1;
         false ->
-            
             load_from_disk(I,Counter+1)
      end.          
 
@@ -57,6 +99,9 @@ handle_call(lfd, _From, {Ref}) ->
     load_from_disk(I,0),
   {reply, ok, {Ref}};
 
+
+handle_call(retref, _From, {Ref}) ->
+  {reply, Ref, {Ref}};
 
 handle_call({push, Queue,Uid,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
 
@@ -84,16 +129,10 @@ handle_call({push, Queue,Uid,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
 
   {reply, ok, {Ref}};
 
-handle_call({pop, Queue, Head}, _From, {Ref}) ->
+handle_call({del, Queue,Uid}, _From, {Ref}) ->
 
-  %delete record
-  THead=Head-1,
-  QKey = erlang:iolist_to_binary([Queue,<<"*">>,<<THead:64>>]),
+  QKey = erlang:iolist_to_binary([Queue,<<"*">>,Uid]),
   eleveldb:delete(Ref, QKey,[]),
-
-  %increment Head 
-  QHead = erlang:iolist_to_binary([Queue,<<"H">>]),
-  eleveldb:put(Ref, QHead, <<Head:64>>, []),
 
   {reply, ok, {Ref}};
 
