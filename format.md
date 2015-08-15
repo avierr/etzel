@@ -144,8 +144,8 @@ PUBLISH()
       2.1. remove the element from the delete list.
       2.2. Go to Step 1
    3. else Send it to the requested Client 
-   4. increment the 'status' of the Element on Disk
-   5. CALL PUBLISH(element) WITH DELAY:60
+   4. increment the 'error_count' of the Element on Disk
+   5. CALL PUBLISH(element); WITH DELAY:60
 ````
 
 ###### ON_ACK/DEL_REQUEST:

@@ -54,8 +54,23 @@ exec_task(<<"FET">>,Map) ->
                         {[{<<"cmd">>, <<"nomsg">>},{<<"qname">>,Qname}]};
 
                         _ ->   
+                        %lets break the message: err_count(8)| expires(64b)|uidlen(16)|uid(Variable)|msg(Variable)
+                        <<ErrorCount:8>> =  binary:part(Ret,0,1), %get error_count
+                        <<Expires:64>> = binary:part(Ret,1,8),
+                        <<Uidlen:16>> = binary:part(Ret,9,2), %get uidlen
+                        Uid = binary:part(Ret,11,Uidlen), %get the uid
+                        MsgLen = byte_size(Ret)-(Uidlen+11),
+                        Msg = binary:part(Ret,Uidlen+11, MsgLen), %get the msg
+                        
+                        % get uidlen+uid+msg: 2bytes for uidlen+actual uidlen +msglen
+                        UidMsgBin = binary:part(Ret,9,2+Uidlen+MsgLen), 
 
-                        {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"msg">>,Ret}]}
+                        NewErrorCount=ErrorCount+1,
+                        MemItem=iolist_to_binary([<<NewErrorCount:8>>,<<Expires:64>>,UidMsgBin]),
+                        %increment error count on disk
+                        push_to_disk(Qname,Uid,NewErrorCount,0,Expires,Msg),
+                        timer:apply_after(60*1000,qin,real_publish,[Qname,MemItem]),
+                        {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"uid">>,Uid},{<<"msg">>,Msg}]}
                 end,        
                 R = jiffy:encode(Y),
                 R = R
@@ -78,7 +93,7 @@ exec_publish(0,Map)->
         Msg=maps:get(<<"msg">>,Map),
         Delay=maps:get(<<"delay">>,Map),
         Expires=maps:get(<<"expires">>,Map),
-        {MemItem,Uid}=gen_msg(Msg),
+        {MemItem,Uid}=gen_msg(Msg,Expires),
         push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
         real_publish(Qname,MemItem);
   
@@ -89,7 +104,7 @@ exec_publish(Ts,Map)->
         Msg=maps:get(<<"msg">>,Map),
         Delay=maps:get(<<"delay">>,Map),
         Expires=maps:get(<<"expires">>,Map),
-        {MemItem,Uid}=gen_msg(Msg),
+        {MemItem,Uid}=gen_msg(Msg,Expires),
         push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
         timer:apply_after(Ts*1000,qin,real_publish,[Qname,MemItem]),
         Ret = <<"{\"cmd\":\"ok\"}">>,
@@ -124,12 +139,12 @@ real_publish(Qname,Msg) ->
            % io:format("hi"),
             {ok,P2}=tq:start_link(),
             pg2:join(PQname,P2),
-            gen_server:call(P2,{push,Msg,Qname});
+            gen_server:call(P2,{push,Msg});
 
         Otherwise ->   
             %io:format("bye"),
             [Px|_]=Otherwise,
-            gen_server:call(Px,{push,Msg,Qname})
+            gen_server:call(Px,{push,Msg})
       end,      
 
     Ret = <<"{\"cmd\":\"ok\"}">>,
@@ -137,12 +152,16 @@ real_publish(Qname,Msg) ->
 
 
 %Disk: Q-uid: errc|delay|expires|item
-%Mem : size|Q-uid|Item
+%Mem : errc|expires|UidLen|Q-uid|Item
 
-gen_msg(Msg)->
+gen_msg(Msg,Expires)->
         Uid=gen_server:call(whereis(uidgen),getuid),
         Uid_size=byte_size(Uid),
-        MemItem = iolist_to_binary([<<Uid_size:16>>,Uid,Msg]),
+
+        {Mega, Secs, _} = os:timestamp(),
+        Timestamp = Mega*1000000 + Secs,
+        TExpires = Timestamp + Expires,
+        MemItem = iolist_to_binary([<<0:8>>,<<TExpires:64>>,<<Uid_size:16>>,Uid,Msg]),
         {MemItem,Uid}.
 
 

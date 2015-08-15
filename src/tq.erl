@@ -11,6 +11,7 @@ init([])->
 start_link() -> gen_server:start_link(?MODULE, [], []).
  
 handle_call({push, Item}, _From, {MyQueue, Len}) ->
+    io:format("\n  ~w \n",[Item]),
     {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
  
 handle_call({pop}, _From, {MyQueue, Len})->

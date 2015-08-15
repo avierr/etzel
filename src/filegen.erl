@@ -79,7 +79,7 @@ handle_call({push, Queue,Uid,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
                                    <<TExpires:64>>,
                                    Item]),
 
-  io:format("\n ~w ~w  \n",[QKey, QItem]),
+  %io:format("\n ~w ~w  \n",[QKey, QItem]),
   eleveldb:put(Ref, QKey, QItem, []),
 
   {reply, ok, {Ref}};

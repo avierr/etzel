@@ -70,9 +70,11 @@ ParaComputeD.prototype.publish = function(queue, msg, options) {
 
     var Obj = new Object();
     Obj.qname = queue;
-    Obj.msg = msg;
+    Obj.msg = String(msg);
     Obj.cmd = "PUB";
     Obj.delay= 0;
+    Obj.expires= 0;
+    
 
     if((typeof options !== 'undefined') && (typeof options.delay !== 'undefined')){
 
