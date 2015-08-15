@@ -25,19 +25,18 @@
     "cmd":"PUB",
     "qname": "$Q_NAME",
     "message": "$message",
+    "delay": 0,
+    "expires": 0  
+
 }
 ````
 **Optional messages' parameters:**
-
-* `timeout`: After timeout (in seconds), item will be placed back onto queue.
-You must delete the message from the queue to ensure it does not go back onto the queue.
- Default is 60 seconds. Minimum is 5 seconds.
 
 * `delay`: The item will not be available on the queue until this many seconds have passed.
 Default is 0 seconds. Maximum is 365 days(in seconds).
 
 * `expires`: How long in seconds to keep the item on the queue before it is deleted.
-Default is infinity.
+Default is 0(365 days).
 
 
 ### inform server that you are going to SLEEP
