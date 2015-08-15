@@ -58,18 +58,25 @@ handle_call(lfd, _From, {Ref}) ->
   {reply, ok, {Ref}};
 
 
-handle_call({push, Queue,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
+handle_call({push, Queue,Uid,ErrorCount,Delay,Expires,Item}, _From, {Ref}) ->
 
-  Uid=gen_server:call(whereis(uidgen),getuid),
   QKey = erlang:iolist_to_binary([Queue,<<"*">>,Uid]),
 
   {Mega, Secs, _} = os:timestamp(),
   Timestamp = Mega*1000000 + Secs,
   TDelay = Timestamp + Delay,
-  TExpires = Timestamp + Expires,
-  QItem = erlang:iolist_to_binary([erlang:integer_to_binary(ErrorCount),
-                                   erlang:integer_to_binary(TDelay),
-                                   erlang:integer_to_binary(TExpires),
+
+
+  TExpires = case Expires of
+              0 -> 
+                  Timestamp + 31536000;
+              _ ->
+                  Timestamp + Expires
+              end,    
+
+  QItem = erlang:iolist_to_binary([<<ErrorCount:8>>,
+                                   <<TDelay:64>>,
+                                   <<TExpires:64>>,
                                    Item]),
 
   io:format("\n ~w ~w  \n",[QKey, QItem]),

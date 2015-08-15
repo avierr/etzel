@@ -31,11 +31,11 @@ init([]) ->
     Prefix = iolist_to_binary([Strbin,Timestampbin,<<"_">>]),
     io:format("\n ~w \n",[Prefix]),
 
-    {ok, {Prefix,0}}.
+    {ok, {Prefix,250}}.
 
 handle_call(getuid,_From,{Prefix,Counter}) ->
 
-    Reply = iolist_to_binary([Prefix,Counter]),
+    Reply = iolist_to_binary([Prefix,integer_to_binary(Counter)]),
 
     {reply,Reply,{Prefix,Counter+1}};
 

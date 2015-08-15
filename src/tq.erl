@@ -6,28 +6,20 @@
 	start_link/0]).
 
 init([])->
-      {ok, {queue:new(), 0,0,0}}.
+      {ok, {queue:new(), 0}}.
 
 start_link() -> gen_server:start_link(?MODULE, [], []).
  
-handle_call({push, Item, Qname}, _From, {MyQueue, Len,H,T}) ->
-	%L=queue:to_list(MyQueue),
-	%io:format("T ~w ",[L]),
-    Uid=gen_server:call(whereis(uidgen),getuid),
-    Itembin=iolist_to_binary([Uid,Item]),
-    gen_server:call(whereis(filegen),{push,Qname,Itembin,T}),
-    {reply, ok, {queue:in(Itembin, MyQueue), Len + 1,H,T+1}};
+handle_call({push, Item}, _From, {MyQueue, Len}) ->
+    {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
  
-handle_call({pop,Qname}, _From, {MyQueue, Len,H,T})->
+handle_call({pop}, _From, {MyQueue, Len})->
     case queue:out(MyQueue) of
         {{value, Item}, Q} ->
-
-
-           gen_server:call(whereis(filegen),{pop,Qname,H+1}),
-           {reply, Item, {Q, Len,H+1,T}};
+           {reply, Item, {Q, Len -1}};
 
         {empty, Q} ->
-           {reply, no_item, {Q, Len,H,T}}
+           {reply, no_item, {Q, Len}}
      end.      
 
 handle_cast(_Msg, State) ->

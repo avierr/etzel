@@ -1,7 +1,11 @@
 
 
 -module(qin).
--export([starten/0,select_task/1,exec_task/2,real_publish/1]).
+-export([starten/0,
+            select_task/1,
+            exec_task/2,
+            real_publish/2,
+            push_to_disk/6]).
 %-on_load(starten/0).
 
 starten() ->
@@ -43,7 +47,7 @@ exec_task(<<"FET">>,Map) ->
 
             Otherwise ->   
                 [Px|_]=Otherwise,
-                Ret=gen_server:call(Px,{pop,Qname}),
+                Ret=gen_server:call(Px,{pop}),
                 Y = case Ret of 
                     no_item -> 
                         %self() ! jiffy:encode({[{<<"cmd">>, <<"okslp">>},{<<"qname">>,Qname}]}),
@@ -70,21 +74,31 @@ exec_task(_,_) ->
 
 
 exec_publish(0,Map)->
-            real_publish(Map);
+        Qname=maps:get(<<"qname">>,Map),
+        Msg=maps:get(<<"msg">>,Map),
+        Delay=maps:get(<<"delay">>,Map),
+        Expires=maps:get(<<"expires">>,Map),
+        {MemItem,Uid}=gen_msg(Msg),
+        push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
+        real_publish(Qname,MemItem);
   
 
 
 exec_publish(Ts,Map)->
-        timer:apply_after(Ts*1000,qin,real_publish,[Map]),
+        Qname=maps:get(<<"qname">>,Map),
+        Msg=maps:get(<<"msg">>,Map),
+        Delay=maps:get(<<"delay">>,Map),
+        Expires=maps:get(<<"expires">>,Map),
+        {MemItem,Uid}=gen_msg(Msg),
+        push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
+        timer:apply_after(Ts*1000,qin,real_publish,[Qname,MemItem]),
         Ret = <<"{\"cmd\":\"ok\"}">>,
         Ret=Ret.
 
 
-real_publish(Map) ->
-%get list of members from intersection(Q,sleepQ) 
+real_publish(Qname,Msg) ->
+    %get list of members from intersection(Q,sleepQ) 
     %and send a AWAKE message 
-    Qname=maps:get(<<"qname">>,Map),
-    Msg=maps:get(<<"msg">>,Map),
     pg2:create(Qname),
 
     %create sleep Q. name for THE queue
@@ -120,6 +134,21 @@ real_publish(Map) ->
 
     Ret = <<"{\"cmd\":\"ok\"}">>,
     Ret=Ret.
+
+
+%Disk: Q-uid: errc|delay|expires|item
+%Mem : size|Q-uid|Item
+
+gen_msg(Msg)->
+        Uid=gen_server:call(whereis(uidgen),getuid),
+        Uid_size=byte_size(Uid),
+        MemItem = iolist_to_binary([<<Uid_size:16>>,Uid,Msg]),
+        {MemItem,Uid}.
+
+
+push_to_disk(Qname,Uid,ErrorCount,Delay,Expires,Item)->
+
+    gen_server:call(whereis(filegen),{push,Qname,Uid,ErrorCount,Delay,Expires,Item}).
 
 
 
