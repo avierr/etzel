@@ -15,11 +15,11 @@
 	</center>
 
 </body>
-<script type="text/javascript" src="ParaComputeD.js"></script>
+<script type="text/javascript" src="etzelclient.js"></script>
 <script>
 	
-pw=new ParaComputeD("ws://"+location.hostname+":8080"+'/connect');
-pw.onopen=function(){
+ec=new etzelclient("ws://"+location.hostname+":8080"+'/connect');
+ec.onopen=function(){
 	console.log("CON_OPEN");
 }
 
@@ -30,7 +30,7 @@ function startit(){
 		for(i=1;i<=10;i++){
 
 			elem.innerHTML=i+" inserted.";
-	    	pw.publish('test1',i);
+	    	ec.publish('test1',i);
 		}
 }
 

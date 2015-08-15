@@ -1,19 +1,19 @@
-ParaComputeD=require("./ParaComputeD.js");
+etzelclient=require("./etzelclient.js");
 
-pw=new ParaComputeD("ws://localhost:8080/connect");
+ec=new etzelclient("ws://localhost:8080/connect");
 
 
 function mycallback(data){
 
-    console.log(data+"PPP");
+    console.log(data+" from the queue");
 
 }
 
 
-pw.onopen=function(){
+ec.onopen=function(){
 
 
-    pw.subscribe("test1",mycallback);
+    ec.subscribe("test1",mycallback);
 
 }
 
