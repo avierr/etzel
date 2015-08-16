@@ -1,14 +1,14 @@
-ParaComputeD=require("./ParaComputeD.js");
+etzelclient=require("./etzelclient.js");
 
-pw=new ParaComputeD("ws://localhost:8080/connect");
+ec=new etzelclient("ws://localhost:8080/connect");
 
 //for(i=0;i<10000;i++)
 
-pw.onopen=function(){
+ec.onopen=function(){
 
     // i=0;
     // pw.publish('test1','hi');
-    pw.publish('test1','hi',{delay:5});
+    ec.publish('test1','hi',{delay:5});
 
 }
 
