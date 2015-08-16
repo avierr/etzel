@@ -69,13 +69,19 @@ etzelclient.prototype.publish = function(queue, msg, options) {
 
     var Obj = new Object();
     Obj.qname = queue;
-    Obj.msg = msg;
+    Obj.msg = String(msg);
     Obj.cmd = "PUB";
     Obj.delay= 0;
+    Obj.expires=0;
 
     if((typeof options !== 'undefined') && (typeof options.delay !== 'undefined')){
 
         Obj.delay = options.delay;
+    }
+
+    if((typeof options !== 'undefined') && (typeof options.expires !== 'undefined')){
+
+        Obj.expires = options.expires;
     }
 
     var data = JSON.stringify(Obj);
@@ -85,7 +91,7 @@ etzelclient.prototype.publish = function(queue, msg, options) {
 
 etzelclient.prototype.sendSubCmd = function(queue) {
 
-  us  var Obj = new Object();
+    var Obj = new Object();
     Obj.qname = queue;
     Obj.cmd = "SUB";
     var data = JSON.stringify(Obj);

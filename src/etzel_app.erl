@@ -18,11 +18,14 @@ start(_Type, _Args) ->
     ),
 
 
-    {ok,_} = filegen:start(),
-    X=ets:new(etzel_delset, [public,set, named_table]),
-    io:format("\n ~w \n",[X]),
+    {ok, Data} = file:read_file("lib/etzel-0.1.0/src/opener.txt"),
+    io:format("~s",[Data]),
+    ets:new(etzel_delset, [public,set, named_table]),
+    ets:insert(etzel_delset, {qreglock, 0}),
     {ok,_} = uidgen:start_link(),
-    %register(pdb, Ref), % Init primary DB
+    {ok,FP} = filegen:start(),
+    gen_server:call(FP,lfd),
+
 
 	etzel_sup:start_link().
 

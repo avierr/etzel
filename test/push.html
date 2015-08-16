@@ -30,7 +30,7 @@ function startit(){
 		for(i=1;i<=10;i++){
 
 			elem.innerHTML=i+" inserted.";
-	    	ec.publish('test1',i);
+	    	ec.publish('test1',i,{delay:0,expires:5});
 		}
 }
 

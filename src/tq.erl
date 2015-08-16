@@ -15,6 +15,7 @@ handle_call({push, Item}, _From, {MyQueue, Len}) ->
     {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
  
 handle_call({pop}, _From, {MyQueue, Len})->
+    io:format("\nTQ.O:  ~w \n",[Len]),
     case queue:out(MyQueue) of
         {{value, Item}, Q} ->
            {reply, Item, {Q, Len -1}};

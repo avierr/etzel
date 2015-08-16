@@ -9,7 +9,7 @@
 %-on_load(starten/0).
 
 starten() ->
-    io:format("\nstajtnes\n").
+    io:format(" starting...\n").
 
 select_task(Data) ->
     Map=jiffy:decode(Data,[return_maps]),
@@ -72,28 +72,41 @@ exec_task(<<"FET">>,Map) ->
                         <<Uidlen:16>> = binary:part(Ret,9,2), %get uidlen
                         Uid = binary:part(Ret,11,Uidlen), %get the uid
 
-                        case ets:lookup(etzel_delset,Uid) of
+                        {Mega, Secs, _} = os:timestamp(),
+                        Timestamp = Mega*1000000 + Secs,
 
-                            [] ->
+                        case Timestamp > Expires of 
 
-                                MsgLen = byte_size(Ret)-(Uidlen+11),
-                                Msg = binary:part(Ret,Uidlen+11, MsgLen), %get the msg
-                                
-                                % get uidlen+uid+msg: 2bytes for uidlen+actual uidlen +msglen
-                                UidMsgBin = binary:part(Ret,9,2+Uidlen+MsgLen), 
+                            false ->
 
-                                NewErrorCount=ErrorCount+1,
-                                MemItem=iolist_to_binary([<<NewErrorCount:8>>,<<Expires:64>>,UidMsgBin]),
-                                %increment error count on disk
-                                push_to_disk(Qname,Uid,NewErrorCount,0,Expires,Msg),
-                                timer:apply_after(60*1000,qin,real_publish,[Qname,MemItem]),
-                                Z = {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"uid">>,Uid},{<<"msg">>,Msg}]},
-                                R = jiffy:encode(Z),
-                                R = R;
-                            [{_,_}] ->
-                                    ets:delete(etzel_delset, Uid),
+                                    case ets:lookup(etzel_delset,Uid) of
+
+                                        [] ->
+
+                                            MsgLen = byte_size(Ret)-(Uidlen+11),
+                                            Msg = binary:part(Ret,Uidlen+11, MsgLen), %get the msg
+                                            
+                                            % get uidlen+uid+msg: 2bytes for uidlen+actual uidlen +msglen
+                                            UidMsgBin = binary:part(Ret,9,2+Uidlen+MsgLen), 
+
+                                            NewErrorCount=ErrorCount+1,
+                                            MemItem=iolist_to_binary([<<NewErrorCount:8>>,<<Expires:64>>,UidMsgBin]),
+                                            %increment error count on disk
+                                            push_to_disk(Qname,Uid,NewErrorCount,0,Expires,Msg),
+                                            timer:apply_after(60*1000,qin,real_publish,[Qname,MemItem]),
+                                            Z = {[{<<"cmd">>, <<"msg">>},{<<"qname">>,Qname},{<<"uid">>,Uid},{<<"msg">>,Msg}]},
+                                            R = jiffy:encode(Z),
+                                            R = R;
+                                        [{_,_}] ->
+                                                ets:delete(etzel_delset, Uid),
+                                                exec_task(<<"FET">>,Map)
+                                    end;
+                            true ->
+                                    %io:format("\ndeleted",[]),
+                                    gen_server:call(whereis(filegen),{del,Qname,Uid}),
                                     exec_task(<<"FET">>,Map)
-                        end            
+                            
+                        end                    
                 end        
 
         end;
@@ -159,18 +172,29 @@ real_publish(Qname,Msg) ->
         
         [] -> 
            % io:format("hi"),
-            {ok,P2}=tq:start_link(),
-            pg2:join(PQname,P2),
-            gen_server:call(P2,{push,Msg});
+
+           case ets:lookup(etzel_delset,qreglock) of
+            [{_,0}] ->
+                    ets:insert(etzel_delset, {qreglock, 1}),
+                    {ok,P2}=tq:start_link(),
+                    pg2:join(PQname,P2),
+                    ets:insert(etzel_delset, {qreglock, 0}),
+                    gen_server:call(P2,{push,Msg}),
+                    <<"{\"cmd\":\"ok\"}">>;
+            [{_,1}] ->
+                    %try again
+                    qin:real_publish(Qname,Msg)
+            end;
 
         Otherwise ->   
             %io:format("bye"),
             [Px|_]=Otherwise,
-            gen_server:call(Px,{push,Msg})
-      end,      
+            gen_server:call(Px,{push,Msg}),
+            <<"{\"cmd\":\"ok\"}">>
+      end.
 
-    Ret = <<"{\"cmd\":\"ok\"}">>,
-    Ret=Ret.
+
+            
 
 
 %Disk: Q-uid: errc|delay|expires|item

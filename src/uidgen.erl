@@ -29,7 +29,7 @@ init([]) ->
     Timestampbin = erlang:integer_to_binary(Timestamp),
 
     Prefix = iolist_to_binary([Strbin,Timestampbin,<<"_">>]),
-    io:format("\n ~w \n",[Prefix]),
+    io:format("\nUidgen server started with prefix: ~w \n",[Prefix]),
 
     {ok, {Prefix,250}}.
 

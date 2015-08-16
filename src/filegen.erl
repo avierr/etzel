@@ -24,11 +24,11 @@ state() ->
 %% Server implementation, a.k.a.: callbacks
 
 init([]) ->
-  say("\n Disk Persistance Server Initiated \n", []),
+  say("\nFilegen: Persistance Server Initiated. \n", []),
   {ok, Ref} = eleveldb:open("ldt", [{create_if_missing, true}]),
   {ok, {Ref}}.
 
-load_from_disk(I,Counter) ->
+load_from_disk(I,Counter,Ref) ->
     
     Fl = case Counter==0 of
 
@@ -86,7 +86,9 @@ load_from_disk(I,Counter) ->
                
                   timer:apply_after(NDelay*1000,qin,real_publish,[Qname,MemItem])
                 end;  
-            false -> expired
+            false -> 
+                    io:format("\nDel.call\n"),
+                    eleveldb:delete(Ref, Key,[])
          end,            
 
         A=A
@@ -98,14 +100,16 @@ load_from_disk(I,Counter) ->
         true ->
            1=1;
         false ->
-            load_from_disk(I,Counter+1)
+            load_from_disk(I,Counter+1,Ref)
      end.          
 
 handle_call(lfd, _From, {Ref}) ->
 
     {ok, I} = eleveldb:iterator(Ref, []),
-    load_from_disk(I,0),
+    load_from_disk(I,0,Ref),
   {reply, ok, {Ref}};
+
+
 
 
 handle_call(retref, _From, {Ref}) ->
