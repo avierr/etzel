@@ -15,12 +15,12 @@
 	</center>
 
 </body>
-<script type="text/javascript" src="ParaComputeD.js"></script>
+<script type="text/javascript" src="etzelclient.js"></script>
 <script>
 	
-pw=new ParaComputeD("ws://"+location.hostname+":8080"+'/connect');
+ec=new etzelclient("ws://"+location.hostname+":8080"+'/connect');
 
-pw.onopen=function(){
+ec.onopen=function(){
 	console.log("CON_OPEN");
 }
 
@@ -40,7 +40,7 @@ function mycallback(data){
 function startit(ele){
 
 	ele.disabled=true;
-    pw.subscribe("test1",mycallback);
+    ec.subscribe("test1",mycallback);
 }
 
 

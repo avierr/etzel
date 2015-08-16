@@ -2,13 +2,13 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     var WebSocket = require('ws');
 
 
-ParaComputeD = function(host) {
+etzelclient = function(host) {
 
     this.ws = new WebSocket(host);
     this.opened = false;
     this.queue = [];
     this.qbacks = {};
-    this.ws.paraParent = this;
+    this.ws.etzelParent = this;
     this.ws.onmessage = this.onmessage;
     this.ws.onopen = this.onopen;
     this.onopen=null;
@@ -17,31 +17,30 @@ ParaComputeD = function(host) {
 };
 
 
-ParaComputeD.prototype.isleep = function(qname) {
+etzelclient.prototype.isleep = function(qname) {
    
 
     var Obj = new Object();
     Obj.qname = qname;
     Obj.cmd = "ISLP";
     var data = JSON.stringify(Obj);
-    console.log(Obj.qname + Obj.cmd);
+   // console.log(Obj.qname + Obj.cmd);
     this.ws.send(data);
 
 };
-//var sendserver=func
 
 
-ParaComputeD.prototype.onopen = function(evt) {
+etzelclient.prototype.onopen = function(evt) {
 
     //console.log(evt);
     this.opened = true;
-    this.paraParent.onopen();
+    this.etzelParent.onopen();
     
 
 };
 
 j = 1;
-ParaComputeD.prototype.onmessage = function(evt) {
+etzelclient.prototype.onmessage = function(evt) {
 
     console.log(evt.data);
     console.log(j++);
@@ -50,31 +49,29 @@ ParaComputeD.prototype.onmessage = function(evt) {
     if (typeof d.msg !== 'undefined') {
         // the variable is defined
 
-        console.log("================Done==========");
+        console.log("================Done==============");
     }
     if (d.cmd == "awk")
-        this.paraParent.fetch(d.qname); //"this" is inside ws.onmessage scope. we need parent scope which is in the constructor :)
+        this.etzelParent.fetch(d.qname); //"this" is inside ws.onmessage scope. we need parent scope which is in the constructor :)
     if (d.cmd == 'nomsg') {
-        this.paraParent.isleep(d.qname);
+        this.etzelParent.isleep(d.qname);
 
     }
     if(d.cmd=="msg"){
-        this.paraParent.qbacks[d.qname](d.msg);
-         this.paraParent.fetch(d.qname);
+        this.etzelParent.qbacks[d.qname](d.msg);
+         this.etzelParent.fetch(d.qname);
     }
 
 
 };
 
-ParaComputeD.prototype.publish = function(queue, msg, options) {
+etzelclient.prototype.publish = function(queue, msg, options) {
 
     var Obj = new Object();
     Obj.qname = queue;
-    Obj.msg = String(msg);
+    Obj.msg = msg;
     Obj.cmd = "PUB";
     Obj.delay= 0;
-    Obj.expires= 0;
-    
 
     if((typeof options !== 'undefined') && (typeof options.delay !== 'undefined')){
 
@@ -86,9 +83,9 @@ ParaComputeD.prototype.publish = function(queue, msg, options) {
 
 };
 
-ParaComputeD.prototype.sendSubCmd = function(queue) {
+etzelclient.prototype.sendSubCmd = function(queue) {
 
-    var Obj = new Object();
+  us  var Obj = new Object();
     Obj.qname = queue;
     Obj.cmd = "SUB";
     var data = JSON.stringify(Obj);
@@ -96,7 +93,8 @@ ParaComputeD.prototype.sendSubCmd = function(queue) {
 
 };
 
-ParaComputeD.prototype.acknowledge = function(queue,uid) {
+
+etzelclient.prototype.acknowledge = function(queue,uid) {
 
     var Obj = new Object();
     Obj.qname = queue;
@@ -107,7 +105,8 @@ ParaComputeD.prototype.acknowledge = function(queue,uid) {
 
 };
 
-ParaComputeD.prototype.fetch = function(queue) {
+etzelclient.prototype.fetch = function(queue) {
+
 
     var Obj = new Object();
     Obj.qname = queue;
@@ -117,7 +116,7 @@ ParaComputeD.prototype.fetch = function(queue) {
 
 };
 
-ParaComputeD.prototype.subscribe = function(queue, callback) {
+etzelclient.prototype.subscribe = function(queue, callback) {
 
     this.sendSubCmd(queue); //we have to notify the server that we are subscribing
     this.qbacks[queue] = callback;
@@ -127,6 +126,6 @@ ParaComputeD.prototype.subscribe = function(queue, callback) {
 
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
-    module.exports = ParaComputeD;
+    module.exports = etzelclient;
 else
-    window.ParaComputeD = ParaComputeD;
+    window.etzelclient = etzelclient;

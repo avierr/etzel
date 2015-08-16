@@ -1,6 +1,6 @@
-ParaComputeD=require("./ParaComputeD.js");
+etzelclient=require("./etzelclient.js");
 
-pw=new ParaComputeD("ws://localhost:8080/connect");
+ec=new etzelclient("ws://localhost:8080/connect");
 
 //for(i=0;i<1000;i++)
-pw.fetch('test1');
+ec.fetch('test1');
