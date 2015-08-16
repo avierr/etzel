@@ -76,8 +76,16 @@ load_from_disk(I,Counter) ->
               Uid_size = byte_size(Uid),
               Msg = binary:part(Val,17,byte_size(Val)-(1+8+8)), %size(errc)+size(delay)+size(expires)
               MemItem = iolist_to_binary([<<ErrorCount:8>>,<<Expires:64>>,<<Uid_size:16>>,Uid,Msg]),
-              io:format("\nN: ~w \n",[Msg]),
-              timer:apply_after(NDelay*1000,qin,real_publish,[Qname,MemItem]);
+              io:format("\nN: ~p \n",[Qname]),
+
+              case NDelay of 
+
+                0 -> 
+                    qin:real_publish(Qname,MemItem);
+                _ ->
+               
+                  timer:apply_after(NDelay*1000,qin,real_publish,[Qname,MemItem])
+                end;  
             false -> expired
          end,            
 
