@@ -12,12 +12,13 @@ starten() ->
     io:format(" starting...\n").
 
 select_task(Data) ->
-    Map=jiffy:decode(Data,[return_maps]),
-    Cmd=maps:get(<<"cmd">>,Map),
+    Mapx=jiffy:decode(Data),
+    {Map} = Mapx,
+    Cmd=proplists:get_value(<<"cmd">>,Map,[]),
     exec_task(Cmd,Map).
     
 exec_task(<<"SUB">>,Map) ->
-    Qname=maps:get(<<"qname">>,Map),
+    Qname=proplists:get_value(<<"qname">>,Map),
     pg2:create(Qname),
     pg2:join(Qname,self()),
     R = jiffy:encode({[{<<"cmd">>, <<"oksub">>},{<<"qname">>,Qname}]}),    
@@ -26,15 +27,15 @@ exec_task(<<"SUB">>,Map) ->
 
 
 exec_task(<<"ACK">>,Map) ->
-    Uid=maps:get(<<"uid">>,Map),
-    Qname=maps:get(<<"qname">>,Map),
+    Uid=proplists:get_value(<<"uid">>,Map),
+    Qname=proplists:get_value(<<"qname">>,Map),
     ets:insert(etzel_delset, {Uid, ok}),
     gen_server:call(whereis(filegen),{del,Qname,Uid}),
     R = jiffy:encode({[{<<"cmd">>, <<"okack">>},{<<"uid">>,Uid},{<<"qname">>,Qname}]}),    
     R=R;
 
 exec_task(<<"ISLP">>,Map) ->
-    Qname=maps:get(<<"qname">>,Map),
+    Qname=proplists:get_value(<<"qname">>,Map),
     SQname = erlang:iolist_to_binary([Qname,<<"_S">>]),
     pg2:create(SQname),
     pg2:join(SQname,self()),
@@ -46,7 +47,7 @@ exec_task(<<"ISLP">>,Map) ->
 exec_task(<<"FET">>,Map) ->
         %Ret = <<"{'cmd':'ok'}">>,
         %io:format("FET cmd recvd."),
-        Qname=maps:get(<<"qname">>,Map),
+        Qname=proplists:get_value(<<"qname">>,Map),
 
         PQname = erlang:iolist_to_binary([Qname,<<"_P">>]), % join 2 bin. string
         pg2:create(PQname),
@@ -114,7 +115,7 @@ exec_task(<<"FET">>,Map) ->
 
 exec_task(<<"PUB">>,Map) ->
 
-    Ts=maps:get(<<"delay">>,Map),
+    Ts=proplists:get_value(<<"delay">>,Map),
 
     exec_publish(Ts,Map);
     
@@ -124,10 +125,10 @@ exec_task(_,_) ->
 
 
 exec_publish(0,Map)->
-        Qname=maps:get(<<"qname">>,Map),
-        Msg=maps:get(<<"msg">>,Map),
-        Delay=maps:get(<<"delay">>,Map),
-        Expires=maps:get(<<"expires">>,Map),
+        Qname=proplists:get_value(<<"qname">>,Map),
+        Msg=proplists:get_value(<<"msg">>,Map),
+        Delay=proplists:get_value(<<"delay">>,Map),
+        Expires=proplists:get_value(<<"expires">>,Map),
         {MemItem,Uid}=gen_msg(Msg,Expires),
         push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
         real_publish(Qname,MemItem);
@@ -135,10 +136,10 @@ exec_publish(0,Map)->
 
 
 exec_publish(Ts,Map)->
-        Qname=maps:get(<<"qname">>,Map),
-        Msg=maps:get(<<"msg">>,Map),
-        Delay=maps:get(<<"delay">>,Map),
-        Expires=maps:get(<<"expires">>,Map),
+        Qname=proplists:get_value(<<"qname">>,Map),
+        Msg=proplists:get_value(<<"msg">>,Map),
+        Delay=proplists:get_value(<<"delay">>,Map),
+        Expires=proplists:get_value(<<"expires">>,Map),
         {MemItem,Uid}=gen_msg(Msg,Expires),
         push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
         timer:apply_after(Ts*1000,qin,real_publish,[Qname,MemItem]),
