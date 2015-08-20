@@ -76,7 +76,7 @@ load_from_disk(I,Counter,Ref) ->
               Uid_size = byte_size(Uid),
               Msg = binary:part(Val,17,byte_size(Val)-(1+8+8)), %size(errc)+size(delay)+size(expires)
               MemItem = iolist_to_binary([<<ErrorCount:8>>,<<Expires:64>>,<<Uid_size:16>>,Uid,Msg]),
-              io:format("\nN: ~p \n",[Qname]),
+              %io:format("\nN: ~p \n",[Qname]),
 
               case NDelay of 
 
@@ -87,7 +87,7 @@ load_from_disk(I,Counter,Ref) ->
                   timer:apply_after(NDelay*1000,qin,real_publish,[Qname,MemItem])
                 end;  
             false -> 
-                    io:format("\nDel.call\n"),
+                   % io:format("\nDel.call\n"),
                     eleveldb:delete(Ref, Key,[])
          end,            
 

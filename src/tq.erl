@@ -11,11 +11,11 @@ init([])->
 start_link() -> gen_server:start_link(?MODULE, [], []).
  
 handle_call({push, Item}, _From, {MyQueue, Len}) ->
-    io:format("\nTQ.I:  ~w \n",[Len]),
+    %io:format("\nTQ.I:  ~w \n",[Len]),
     {reply, ok, {queue:in(Item, MyQueue), Len + 1}};
  
 handle_call({pop}, _From, {MyQueue, Len})->
-    io:format("\nTQ.O:  ~w \n",[Len]),
+    %io:format("\nTQ.O:  ~w \n",[Len]),
     case queue:out(MyQueue) of
         {{value, Item}, Q} ->
            {reply, Item, {Q, Len -1}};
