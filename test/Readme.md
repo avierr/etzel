@@ -1,9 +1,3 @@
-mail:etzelserver@gmail.com
-pass:avinashkenricgavin
-
-
-twitter handle: @etzelserver
-pass:avinashkenricgavin
 
 
 Node client:-
