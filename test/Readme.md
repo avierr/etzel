@@ -94,7 +94,7 @@ The responses received are all in standard json format.
     "error_count": "$count",
     "msg": "$message"
 }
-###queue is awake:-
+###Queue is awake:-
 {
     "cmd":"awk",
     "qname": "$Q_NAME"
