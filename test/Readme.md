@@ -1,15 +1,15 @@
 
 
-Node client:-
+#Nodejs and javascript client for Etzel server:-
 
 You can install the node client by opening a command prompt and using the following command
-npm install etzelclient
+#####npm install etzelclient
 
 You must then include the library in your .js file by using the require function.
-require('etzelclient');
-The following functions are available to connect to etzel server:-
+#####require('etzelclient');
+##The following functions are available to connect to etzel server:-
 
-1.publish(queuename,message,options)- This pushes a message to etzel server.The arguments required are queuename (which is the name of the queue you want to pubish to), message (which is the message you want to publish to the queue),options includes delay and expire functionality . The options argument  can be used when the message insert needs to be delayed or messaged validity needs to be expired. Options isn't an obligatory argument. The delay and expiry is taken in seconds.
+###1.publish(queuename,message,options)- This pushes a message to etzel server.The arguments required are queuename (which is the name of the queue you want to pubish to), message (which is the message you want to publish to the queue),options includes delay and expire functionality . The options argument  can be used when the message insert needs to be delayed or messaged validity needs to be expired. Options isn't an obligatory argument. The delay and expiry is taken in seconds.
 
 Example:-
 etzelclient=require("etzelclient");
@@ -22,7 +22,7 @@ ec.onopen=function(){
 test is the queuename,hi is the message and the delay is 5 seconds
 
 
-2.subscribe(queuename,callback)- The subscribe function is fetches a message from the etzel server. The argument required are queuename which is the name of the you want to fetch the data from, callback is a custom fucntion which you have you provide. 
+###2.subscribe(queuename,callback)- The subscribe function is fetches a message from the etzel server. The argument required are queuename which is the name of the you want to fetch the data from, callback is a custom fucntion which you have you provide. 
 
 
 Example:-
@@ -45,7 +45,7 @@ An entity fetching data from the specific queue is called a worker. You can mult
 
 
 
-3.acknowledge(queuename,uid)- The acknowledge function acknowledges a specific message from the queue. The arguments required are queuename and the id of the message you want to acknowledge.
+###3.acknowledge(queuename,uid)- The acknowledge function acknowledges a specific message from the queue. The arguments required are queuename and the id of the message you want to acknowledge.
  etzelclient=require("etzelclient");
 
 ec=new etzelclient("ws://localhost:8080/connect");
@@ -65,25 +65,25 @@ Here test is the queuename and uuid is the message specific and in this case its
 
 
 
-Responses received from the queue are as follows:-
+##Responses received from the queue are as follows:-
 The responses received are all in standard json format.
 
-No Queue Found:-
+###No Queue Found:-
 {
     "cmd":"nok",
     "err": "Q_NOT_FOUND"
 }
-No Message Available in the requested Queue:-
+###No Message Available in the requested Queue:-
 {
     "cmd":"nomsg",
     "qname": "$Q_NAME"
 }
-Queue goes to sleep because there are no messages present-
+###Queue goes to sleep because there are no messages present-
 {
     "cmd":"okslp",
     "qname": "$Q_NAME"
 }
-Message Available in the requested Queue:-
+###Message Available in the requested Queue:-
 {
     "cmd": "msg",
     "qname": "$Q_NAME",
@@ -91,7 +91,7 @@ Message Available in the requested Queue:-
     "error_count": "$count",
     "msg": "$message"
 }
-queue is awake:-
+###queue is awake:-
 {
     "cmd":"awk",
     "qname": "$Q_NAME"
