@@ -71,11 +71,11 @@ ec.onopen=function(){
 
 ````
 Here test is the queuename.
-An entity fetching data from the specific queue is called a worker. You can multiple workers working on the same queue. The server facilitates load balancing amongst the workers. Fetching a message will delete the message from the queue **temporarily**. 
+An entity fetching data from the specific queue is called a worker. You can multiple workers working on the same queue. The server facilitates load balancing amongst the workers. Fetching a message will delete the message from the queue **temporarily**(re-queued after 60 seconds). 
 
 acknowledge(queuename,uid)
 
-The acknowledge function acknowledges a specific message from the queue. The arguments required are queuename and the id of the message you want to acknowledge.
+To delete it permanently , we use the acknowledge function which deletes/acknowledges a specific message from the queue. The arguments required are queuename and the id of the message you want to acknowledge.
 
 
 
