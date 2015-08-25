@@ -205,9 +205,14 @@ gen_msg(Msg,Expires)->
         Uid=gen_server:call(whereis(uidgen),getuid),
         Uid_size=byte_size(Uid),
 
+        CalExpires = case Expires of
+                        0 -> 31536000;
+                        _ -> Expires
+                    end,   
+
         {Mega, Secs, _} = os:timestamp(),
         Timestamp = Mega*1000000 + Secs,
-        TExpires = Timestamp + Expires,
+        TExpires = Timestamp + CalExpires,
         MemItem = iolist_to_binary([<<0:8>>,<<TExpires:64>>,<<Uid_size:16>>,Uid,Msg]),
         {MemItem,Uid}.
 

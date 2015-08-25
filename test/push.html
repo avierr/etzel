@@ -17,7 +17,7 @@
 </body>
 <script type="text/javascript" src="etzelclient.js"></script>
 <script>
-	
+	gv=0;
 ec=new etzelclient("ws://"+location.hostname+":8080"+'/connect');
 ec.onopen=function(){
 	console.log("CON_OPEN");
@@ -27,11 +27,13 @@ ec.onopen=function(){
 function startit(){
 
 		var elem=document.getElementById("status");
-		for(i=1;i<=10;i++){
+		for(i=1;i<=1000;i++){
 
 			elem.innerHTML=i+" inserted.";
-	    	ec.publish('test1',i,{delay:0,expires:5});
+	    	ec.publish('test1',(gv)+"-"+i,{delay:0,expires:0});
 		}
+
+		gv++;
 }
 
 </script>

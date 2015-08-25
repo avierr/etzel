@@ -29,8 +29,9 @@ m=0;
 
 function mycallback(data){
 
-	m=m+parseInt(data);
+	m=m+parseInt(d.msg);
 	elem.innerHTML="Total: "+m;
+	ec.acknowledge(d.qname,d.uid);
     //console.log(data+"PPP");
 
 }

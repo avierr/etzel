@@ -42,14 +42,14 @@ etzelclient.prototype.onopen = function(evt) {
 j = 1;
 etzelclient.prototype.onmessage = function(evt) {
 
-    console.log(evt.data);
-    console.log(j++);
+    //console.log(evt.data);
+   // console.log(j++);
     d = JSON.parse(evt.data);
 
     if (typeof d.msg !== 'undefined') {
         // the variable is defined
 
-        console.log("================Done==============");
+        //console.log("================Done==============");
     }
     if (d.cmd == "awk")
         this.etzelParent.fetch(d.qname); //"this" is inside ws.onmessage scope. we need parent scope which is in the constructor :)
@@ -58,7 +58,7 @@ etzelclient.prototype.onmessage = function(evt) {
 
     }
     if(d.cmd=="msg"){
-        this.etzelParent.qbacks[d.qname](d.msg);
+        this.etzelParent.qbacks[d.qname](d);
          this.etzelParent.fetch(d.qname);
     }
 
