@@ -6,7 +6,7 @@
  | |____   | |   / /__| |____| |____ 
  |______|  |_|  /_____|______|______|
                                      
- Etzel Server v.0.1
+ Etzel Server v.0.2
  http://etzelserver.com
  
                                        
