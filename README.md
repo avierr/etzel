@@ -8,7 +8,7 @@ Delete
 Acknowledge
 Disk Logging
 
-
+.  ~/test/er18/activate
  ./_rel/etzel_release/bin/etzel_release console
 
 

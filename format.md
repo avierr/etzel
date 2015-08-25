@@ -26,7 +26,8 @@
     "qname": "$Q_NAME",
     "message": "$message",
     "delay": 0,
-    "expires": 0  
+    "expires": 0, 
+    "priority": 0
 
 }
 ````
@@ -38,6 +39,7 @@ Default is 0 seconds. Maximum is 365 days(in seconds).
 * `expires`: How long in seconds to keep the item on the queue before it is deleted.
 Default is 0(365 days).
 
+* `priority`: It can be either -20,0,20 (High, Medium, Low).
 
 ### inform server that you are going to SLEEP
 
@@ -140,9 +142,12 @@ PUBLISH()
 
 ````
    1. Pop the top of the Queue 
-   2. if the element matches with any element in the delete list: 
-      2.1. remove the element from the delete list.
-      2.2. Go to Step 1
+   2. if the element has expired 
+        2.1 Delete element from disk
+        2.2 go to step 1
+   3. if the element matches with any element in the delete list: 
+      3.1. remove the element from the delete list.
+      3.2. Go to Step 1
    3. else Send it to the requested Client 
    4. increment the 'error_count' of the Element on Disk
    5. CALL PUBLISH(element); WITH DELAY:60
