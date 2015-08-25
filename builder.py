@@ -6,17 +6,17 @@ size = struct.calcsize("P") * 8
 
 
 try:
-    Major=int(raw_input("Enter Major Version Number"))
+    Major=int(raw_input("Enter Major Version Number: "))
 except ValueError:
     Major=0
     
 try:
-    Minor=int(raw_input("Enter Minor Version Number"))
+    Minor=int(raw_input("Enter Minor Version Number: "))
 except ValueError:
     Minor=2
    
 
-Machine=raw_input("Enter OS")
+Machine=raw_input("Enter OS: ")
 
 if Machine == "l":
     Machine="Linux"
