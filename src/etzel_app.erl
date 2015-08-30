@@ -9,6 +9,7 @@ start(_Type, _Args) ->
     pg2:create(<<"__SLPL">>), %create a sleep list for proceses
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
+        		{"/login/", login_handler, []},
                 {"/connect/",ws_handler, []}
                ]}
         
@@ -18,7 +19,7 @@ start(_Type, _Args) ->
     ),
 
 
-    {ok, Data} = file:read_file("lib/etzel-0.1.0/src/opener.txt"),
+    {ok, Data} = file:read_file("ext/opener.txt"),
     io:format("~s",[Data]),
     ets:new(etzel_delset, [public,set, named_table]),
     ets:insert(etzel_delset, {qreglock, 0}),
