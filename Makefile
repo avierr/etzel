@@ -1,5 +1,5 @@
 PROJECT = etzel
-DEPS = cowboy jiffy eleveldb erlydtl
+DEPS = cowboy jiffy eleveldb dtl
 include erlang.mk
 
 
