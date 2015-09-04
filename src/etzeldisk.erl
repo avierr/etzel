@@ -79,7 +79,7 @@ handle_call({push,Pname,Qname,ErrorCount,Delay,Expires,Priority,Item}, _From, {H
 
 	
 	
-	io:format("worked"),
+	io:format("\n ~p ~p ~p ~p ~p ~p ~p ~p",[HC,HOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,RMfRef]),
   {reply, ok,  {HC,HOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,RMfRef}};
 
 
@@ -96,14 +96,19 @@ handle_call({lfd,Pname,Qname,Priority}, _From, _) ->
 		<<NHC:64>> = binary:part(Data,0,8),
 		<<NHOffset:64>> = binary:part(Data,8,8),
 		<<NTCount:64>> = binary:part(Data,16,8),	
-		FIndex=NTCount div 2,
+		
+		FIndex	= case NTCount rem 2 of 
+				0 -> (NTCount div 2) -1 ;
+				_ -> (NTCount div 2)
+				end,
+
 		TFIndex=integer_to_list(FIndex), %convert to text		
 		ToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<"-">>,TFIndex,<<".et">>]),
-		{ok, RRef} = file:open(MToBeOpen, [read, write, raw, binary]),
+		{ok, RRef} = file:open(ToBeOpen, [read, write, raw, binary]),
 		NTOffset=filelib:file_size(ToBeOpen),
 
-
-  {reply, {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef} ,  {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef}};
+io:format("\n ~p ~p ~p ~p ~p ~p ~p ~p",[NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef]),
+  {reply, ok,  {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef}};
 
 
 % handle_call({rfd,Pname,Qname,Priority}, _From, _) ->
