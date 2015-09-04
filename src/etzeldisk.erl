@@ -85,10 +85,6 @@ handle_call({push,Pname,Qname,ErrorCount,Delay,Expires,Priority,Item}, _From, {H
 
 handle_call({lfd,Pname,Qname,Priority}, _From, _) ->
 
-	
-
-			
-
 		TPriority=integer_to_list(Priority),
 		MToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<".etm">>]),
 		{ok, NMfRef} = file:open(MToBeOpen, [read, write, raw, binary]),
@@ -111,25 +107,106 @@ io:format("\n ~p ~p ~p ~p ~p ~p ~p ~p",[NHC,NHOffset, NTOffset, NTCount,ToBeOpen
   {reply, ok,  {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef}};
 
 
-% handle_call({rfd,Pname,Qname,Priority}, _From, _) ->
+handle_call({pop,Pname,Qname,Priority}, _From,  {HC,HOffset, TOffset, TCount,CurrOpen,FRef,Mf,MfRef}) ->
 
-% 		TPriority=integer_to_list(Priority),
-% 		MToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<".etm">>]),
-% 		{ok, NMfRef} = file:open(MToBeOpen, [read, write, raw, binary])
-% 		ok, Data}= file:pread(NMfRef,0,24),
-% 		<<NHC:64>> = binary:part(Data,0,8),
-% 		<<NHOffset:64>> = binary:part(Data,8,8),
-% 		<<NTCount:64>> = binary:part(Data,16,8),
+
+		FIndex=HC div 2,
+		TFIndex=integer_to_list(FIndex), %convert to text
+		TPriority=integer_to_list(Priority),
+		ToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<"-">>,TFIndex,<<".et">>]),
+		MToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<".etm">>]),
 
 		
+		
+
+		% setting the ET file pointer
+		{Status,RRef,TNHOffset} = case CurrOpen==ToBeOpen of
+				
+				true -> {ok,FRef,HOffset};
+				
+				false -> 
+					case  file:open(ToBeOpen, [read,write, raw, binary]) of
+					{ok,NFRef}->{ok,NFRef,0};
+					_ -> {error,FRef,HOffset}
+				end
+		end,
 
 
 
+		{_,RData,NHC,NHOffset,RMfRef} = case Status of 
+
+
+			ok ->
+
+					%Retrivies the first Item header from offset from ET file
+					 case file:pread(RRef,TNHOffset,20)  of
+						
+
+						{ok,Data} -> 
+
+								% get item length
+								<<ItemLen:32>> = binary_part(Data,16,4),
+								{ok,Item} = file:pread(RRef,TNHOffset+20,ItemLen),
+
+								% Update meta data
+								
+								% seeting the ETM file pointer
+								TRMfRef = case MToBeOpen==Mf of
+								
+									true -> MfRef;
+									
+									false -> 
+										{ok, NMfRef} = file:open(MToBeOpen, [read, write, raw, binary]),
+										NMfRef =NMfRef
+								end,
+
+
+								TNHC = HC +1,
+								T_NHOffset = TNHOffset + 20 + ItemLen,
+								Contents = iolist_to_binary([<<TNHC:64>>,<<T_NHOffset:64>>]),
+								file:pwrite(TRMfRef,0,Contents),
+								
+						
+
+								{ok,Item,TNHC,T_NHOffset,TRMfRef};
+
+
+						
+						_ -> 
+								TRMfRef = case MToBeOpen==Mf of
+								
+									true -> MfRef;
+									
+									false -> 
+										{ok, NMfRef} = file:open(MToBeOpen, [read, write, raw, binary]),
+										NMfRef = NMfRef
+								end,		
+
+							{error,no_item,HC,TNHOffset,TRMfRef}
 
 
 
+					end;
 
-% {reply, {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef} ,  {NHC,NHOffset, NTOffset, NTCount,ToBeOpen,RRef,MToBeOpen,NMfRef}};
+		_ ->
+
+
+
+			TRMfRef = case MToBeOpen==Mf of
+		
+			true -> MfRef;
+			
+			false -> 
+				{ok, NMfRef} = file:open(MToBeOpen, [read, write, raw, binary]),
+				NMfRef =NMfRef
+			end,
+			{error,no_item,HC,TNHOffset,TRMfRef}
+
+		end,
+
+io:format("\n ~p ~p ~p ~p ~p ~p ~p ~p",[NHC,NHOffset, TOffset, TCount,ToBeOpen,RRef,MToBeOpen,RMfRef]),
+
+{reply, RData,  {NHC,NHOffset, TOffset, TCount,ToBeOpen,RRef,MToBeOpen,RMfRef}};
 
 
 handle_call(stop, _From, State) ->
