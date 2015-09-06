@@ -2,48 +2,47 @@ import json
 import asyncio
 import websockets
 
-
-class etzelclient (host):
+class etzelclient ():
+    host = "localhost"
+    port = "8765"
+    
     def __init__(self):
-        self.ws = yield from websockets.connect(host)
-        self.opened = false
+        self.opened = False
         self.queue = []
         self.qbacks = {}
-        self.ws.etzelParent = self
-        self.ws.onmessage = self.onmessage
-        self.ws.onopen = self.onopen
-        self.onopen = None
 
-    def isleep(qname):
+    @asyncio.coroutine
+    def sendTo(self, data):
+        websocket = yield from websockets.connect('ws://'+host+':'+port+'/')
+        yield from websocket.send(data)
+        yield from websocket.close()
+
+    def isleep(self, qname):
         content = {
             "qname": qname,
             "cmd": "ISLP"
         }
         data = json.JSONEncoder().encode(content)
-        yield from self.ws.send(data)
+        websocket.send(data)
 
-
-    def onopen(evt):
-        self.opened = true
-        self.etzelParent.onopen()
-    
-    def onmessage(evt):
-        d = json.JSONDecoder(evt.data)
-
-        if ("msg" in d):
-            #the variable is not defined
+    @asyncio.coroutine
+    def worker(self):
+        websocket = yield from websockets.connect('ws://'+host+':'+port+'/')
+        evt = yield from websocket.recv()
+        d = json.JSONDecoder().decode(evt)
 
         if (d["cmd"] == "awk"):
-            self.etzelParent.fetch(d["qname"])
-            #"self" is inside ws.onmessage scope. we need parent scope which is in the constructor :)
+            self.fetch(d["qname"])
         elif (d["cmd"] == "nomsg"):
-            self.etzelParent.isleep(d["qname"])
+            self.isleep(d["qname"])
         elif (d["cmd"] == "msg"):
-            self.etzelParent.qbacks[d["qname"]](d)
-            self.etzelParent.fetch(d["qname"])
+            self.qbacks[d["qname"]](d)
+            self.fetch(d["qname"])
+
+        yield from websocket.close()
 
 
-    def publish(queue, msg, options=None):
+    def publish(self, queue, msg, options=None):
 
         content = {
             "qname" : queue,
@@ -53,49 +52,48 @@ class etzelclient (host):
             "expires" : 0
         }
 
-        if(options != None) && ("delay" in options)){
-
+        if ((options != None) and ("delay" in options)):
             content["delay"] = options["delay"]
-        }
 
-        if(options != None) && ("expires" in options)){
-
+        if ((options != None) and ("expires" in options)):
             content["expires"] = options["expires"]
-        }
 
         data = json.JSONEncoder().encode(content)
-        yield from self.ws.send(data)
+        sendTo(data)
 
-    def sendSubCmd(queue):
+    def sendSubCmd(self, queue):
         content = {
-            "qname" = queue,
-            "cmd" = "SUB"
+            "qname" : queue,
+            "cmd" : "SUB"
         }
         
         data = json.JSONEncoder().encode(content)
-        yield from self.ws.send(data)
+        sendTo(data)
 
 
-    def acknowledge(queue,uid):
+    def acknowledge(self, queue, uid):
         content = {
-            "qname" = queue,
-            "cmd" = "ACK",
-            "uid" = uid
+            "qname" : queue,
+            "cmd" : "ACK",
+            "uid" : uid
         }
         
         data = json.JSONEncoder().encode(content)
-        yield from self.ws.send(data)
+        sendTo(data)
 
-    def fetch(queue):
+    def fetch(self, queue):
         content = {
-            "qname" = queue,
-            "cmd" = "FET"
+            "qname" : queue,
+            "cmd" : "FET"
         }
 
         data = json.JSONEncoder().encode(content)
-        yield from self.ws.send(data)
+        sendTo(data)
     
-    def subscribe(queue, callback):
+    def subscribe(self, queue, callback):
         self.sendSubCmd(queue) #we have to notify the server that we are subscribing
         self.qbacks[queue] = callback
         self.fetch(queue)
+
+    def startwolf(self):
+        asyncio.get_event_loop().run_until_complete(self.worker())

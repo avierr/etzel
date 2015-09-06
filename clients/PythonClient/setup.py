@@ -10,7 +10,7 @@ config = {
 	'download_url' : 'https://github.com/AzureByte/etzel',
 	'author_email' : 'kenric.dsouza@gmail.com',
 	'version' : '0.1',
-	'install_requires' : ['nose'],
+	'install_requires' : ['nose', 'etzelclient', 'asyncio', 'websockets'],
 	'packages' : ['PythonClient'],
 	'scripts' : [],
 	'name' : 'PythonClient'
