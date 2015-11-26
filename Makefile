@@ -1,5 +1,6 @@
 PROJECT = etzel
-DEPS = cowboy jiffy eleveldb dtl
+DEPS = cowboy jiffy eleveldb dtl esqlite
+dep_esqlite = git https://github.com/mmzeeman/esqlite master
 include erlang.mk
 
 

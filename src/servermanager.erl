@@ -20,19 +20,30 @@
          code_change/3,
          get_random_string/2]).
 
-
+-define(DATA_PATH,element(2,application:get_env(etzel,data_path))).
 
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 init([]) ->
    
-   Prefix=0,
+  say("\nFilegen: Persistance Server Initiated. \n", []),
+  Db=iolist_to_binary([?DATA_PATH,<<"/">>]),
+  {ok, Ref} = eleveldb:open(, [{create_if_missing, true}]),
+  {ok, {Ref}}.
 
-    {ok, {Prefix}}.
 
-handle_call(getuid,_From,{Prefix}) ->
+handle_call({register_user,Email,Password},_From,{Prefix}) ->
 
+    
+    filelib:ensure_dir("hey/boe/cey/").
+    Reply = 1,
+
+    {reply,Reply,{Prefix}};
+
+handle_call(create_proj_dir,_From,{Prefix}) ->
+
+    filelib:ensure_dir("hey/boe/cey/").
     Reply = 1,
 
     {reply,Reply,{Prefix}};

@@ -4,6 +4,9 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+-define(DATA_PATH,element(2,application:get_env(etzel,data_path))).
+-define(MAX_FILE_RECS,element(2,application:get_env(etzel,max_file_recs))).
+
 %% Public API
 
 start_link() ->
@@ -39,12 +42,12 @@ handle_call({push,Pname,Qname,ErrorCount,Delay,Expires,Priority,Item}, _From, {H
 
 	Pname=Pname, Qname=Qname, ErrorCount=ErrorCount,Delay=Delay,Expires=Expires,Item=Item,Priority=Priority,
 	
-	FIndex=Tcount div 2,
+	FIndex=Tcount div ?MAX_FILE_RECS,
 	TFIndex=integer_to_list(FIndex), %convert to text
 	
 	TPriority=integer_to_list(Priority),
-	MToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<".etm">>]),
-	ToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<"-">>,TFIndex,<<".et">>]),
+	MToBeOpen = iolist_to_binary([?DATA_PATH,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<".etm">>]),
+	ToBeOpen = iolist_to_binary([?DATA_PATH,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<"-">>,TFIndex,<<".et">>]),
 
 	
 	{RRef,NOffset}= case CurrOpen==ToBeOpen of
@@ -93,9 +96,9 @@ handle_call({lfd,Pname,Qname,Priority}, _From, _) ->
 		<<NHOffset:64>> = binary:part(Data,8,8),
 		<<NTCount:64>> = binary:part(Data,16,8),	
 		
-		FIndex	= case NTCount rem 2 of 
-				0 -> (NTCount div 2) -1 ;
-				_ -> (NTCount div 2)
+		FIndex	= case NTCount rem ?MAX_FILE_RECS of 
+				0 -> (NTCount div ?MAX_FILE_RECS) -1 ;
+				_ -> (NTCount div ?MAX_FILE_RECS)
 				end,
 
 		TFIndex=integer_to_list(FIndex), %convert to text		
@@ -110,7 +113,7 @@ io:format("\n ~p ~p ~p ~p ~p ~p ~p ~p",[NHC,NHOffset, NTOffset, NTCount,ToBeOpen
 handle_call({pop,Pname,Qname,Priority}, _From,  {HC,HOffset, TOffset, TCount,CurrOpen,FRef,Mf,MfRef}) ->
 
 
-		FIndex=HC div 2,
+		FIndex=HC div ?MAX_FILE_RECS,
 		TFIndex=integer_to_list(FIndex), %convert to text
 		TPriority=integer_to_list(Priority),
 		ToBeOpen = iolist_to_binary([<<"ext/data/">>,Pname,<<"/">>,Qname,<<"-">>,TPriority,<<"-">>,TFIndex,<<".et">>]),
