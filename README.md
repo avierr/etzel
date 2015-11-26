@@ -1,5 +1,6 @@
 # Etzel
 
+````
 The program is currently under development. check back soon!
 
 currently to be developed:
@@ -10,6 +11,8 @@ Disk Logging
 
 .  ~/test/er18/activate
  ./_rel/etzel_release/bin/etzel_release console
+
+````
 
 
 ````
