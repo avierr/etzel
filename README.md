@@ -20,3 +20,11 @@ Goto: http://localhost:9000/push.html
 then Goto: http://localhost:9000/push.html
 
 ````
+
+
+````
+
+{ok,P2}=etzeldisk:start_link()
+gen_server:call(P2,{push,<<"p1">>,<<"q1">>,0,0,0,0,<<"hi">>}).
+
+````

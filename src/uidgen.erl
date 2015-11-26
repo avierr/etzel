@@ -11,7 +11,8 @@
          handle_info/2,
          terminate/2,
          code_change/3,
-         get_random_string/2]).
+         get_random_string/2,
+         get_project_uid/0]).
 
 
 
@@ -39,6 +40,8 @@ handle_call(getuid,_From,{Prefix,Counter}) ->
 
     {reply,Reply,{Prefix,Counter+1}};
 
+   
+
 handle_call(_Request, _From, State) ->
     {reply, ignored, State}.
 
@@ -54,6 +57,15 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
+get_project_uid() ->
+
+    Str = uidgen:get_random_string(3,"ghjklmnpqrstvwxyz"),
+    {Mega, Secs, _} = os:timestamp(),
+    Timestamp = Mega*1000000 + Secs,
+    TimestampHex = integer_to_list(Timestamp,16),
+
+    iolist_to_binary([Str,string:to_lower(TimestampHex)]).
+ 
 
 get_random_string(Length, AllowedChars) ->
     lists:foldl(fun(_, Acc) ->
