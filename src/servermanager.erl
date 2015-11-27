@@ -36,8 +36,10 @@ init([]) ->
 handle_call({register_user,Email,Password},_From,{Prefix}) ->
 
     
-    filelib:ensure_dir("hey/boe/cey/").
+    %filelib:ensure_dir("hey/boe/cey/"),
     Reply = 1,
+    Email=Email,
+    Password=Password,
 
     {reply,Reply,{Prefix}};
 
