@@ -10,7 +10,8 @@
 		cowboy,
 		jiffy,
 		eleveldb,
-		dtl
+		dtl,
+		esqlite
 		
 	]},
 	{mod, {etzel_app, []}},
