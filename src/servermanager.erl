@@ -27,9 +27,9 @@ start_link() ->
 
 init([]) ->
    
-  say("\nFilegen: Persistance Server Initiated. \n", []),
-  Db=iolist_to_binary([?DATA_PATH,<<"/">>]),
-  {ok, Ref} = eleveldb:open(, [{create_if_missing, true}]),
+  %say("\nFilegen: Persistance Server Initiated. \n", []),
+  Db=iolist_to_binary([?DATA_PATH,<<"/ldt">>]),
+  {ok, Ref} = eleveldb:open(Db, [{create_if_missing, true}]),
   {ok, {Ref}}.
 
 
@@ -45,7 +45,7 @@ handle_call({register_user,Email,Password},_From,{Prefix}) ->
 
 handle_call(create_proj_dir,_From,{Prefix}) ->
 
-    filelib:ensure_dir("hey/boe/cey/").
+    filelib:ensure_dir("hey/boe/cey/"),
     Reply = 1,
 
     {reply,Reply,{Prefix}};
