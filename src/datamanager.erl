@@ -1,4 +1,4 @@
--module(servermanager).
+-module(datamanager).
 
 -behaviour(gen_server).
 
@@ -19,28 +19,42 @@
          terminate/2,
          code_change/3]).
 
--define(DATA_PATH,element(2,application:get_env(etzel,data_path))).
+-define(METADATA_PATH,element(2,application:get_env(etzel,metadata_path))).
 
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 init([]) ->
-   
   %say("\nFilegen: Persistance Server Initiated. \n", []),
   random:seed(erlang:now()),
-    Ref=1,
+  Db=iolist_to_binary([?METADATA_PATH,<<"data.db">>]),
+  {ok, Ref} = esqlite3:open(binary_to_list(Db)),
   {ok, {Ref}}.
 
 
-handle_call({register_user,Email,Password},_From,{Prefix}) ->
+
+handle_call({put_user,Email,Password,Salt},_From,{Ref}) ->
+
+    {ok, Statement} = esqlite3:prepare(<<"INSERT INTO users(username,password,salt) VALUES (?,?,?)">>,Ref),
+    esqlite3:bind(Statement, [Email, Password,Salt]),
+    Res=esqlite3:step(Statement),
+
+    io:format("pass: ~p \n END",[Password]),
 
     %filelib:ensure_dir("hey/boe/cey/"),
-    {Hash,Salt}=commonlib:hash_pass(Password),
-    StrHash=(Hash),
-    gen_server:call(whereis(datamanager),{put_user,Email,StrHash,Salt}),
-    Reply={StrHash,Salt},
+    Reply = Res,
+    {reply,Reply,{Ref}};
 
-    {reply,Reply,{Prefix}};
+handle_call({get_user,Email,Password},_From,{Ref}) ->
+
+    Res = esqlite3:q(<<"SELECT count(type) FROM sqlite_master WHERE username=? AND password=?;">>, [Email,Password], Ref),
+    Res=Res,
+    %filelib:ensure_dir("hey/boe/cey/"),
+    Reply = 1,
+    Email=Email,
+    Password=Password,
+
+    {reply,Reply,{Ref}};
 
 handle_call(create_proj_dir,_From,{Prefix}) ->
 
@@ -65,5 +79,3 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 
-
-%% Internal functions

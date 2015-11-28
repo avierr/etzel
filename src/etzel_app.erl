@@ -19,6 +19,7 @@ start(_Type, _Args) ->
     ),
 
 
+    random:seed(now()),
     {ok, Data} = file:read_file("ext/opener.txt"),
     io:format("~s",[Data]),
     ets:new(etzel_delset, [public,set, named_table]),
