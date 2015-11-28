@@ -17,8 +17,7 @@
          handle_cast/2,
          handle_info/2,
          terminate/2,
-         code_change/3,
-         get_random_string/2]).
+         code_change/3]).
 
 -define(DATA_PATH,element(2,application:get_env(etzel,data_path))).
 
@@ -66,10 +65,5 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 
-get_random_string(Length, AllowedChars) ->
-    lists:foldl(fun(_, Acc) ->
-                        [lists:nth(random:uniform(length(AllowedChars)),
-                                   AllowedChars)]
-                            ++ Acc
-                end, [], lists:seq(1, Length)).
+
 %% Internal functions

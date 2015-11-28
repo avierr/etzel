@@ -10,9 +10,7 @@
          handle_cast/2,
          handle_info/2,
          terminate/2,
-         code_change/3,
-         get_random_string/2,
-         get_project_uid/0]).
+         code_change/3]).
 
 
 
@@ -22,7 +20,7 @@ start_link() ->
 init([]) ->
     random:seed(os:timestamp()),
 
-    Str = uidgen:get_random_string(2,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+    Str = commonlib:get_random_string(2,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),
     Strbin = erlang:list_to_binary(Str),
     {Mega, Secs, _} = os:timestamp(),
 
@@ -57,20 +55,4 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
-get_project_uid() ->
 
-    Str = uidgen:get_random_string(3,"ghjklmnpqrstvwxyz"),
-    {Mega, Secs, _} = os:timestamp(),
-    Timestamp = Mega*1000000 + Secs,
-    TimestampHex = integer_to_list(Timestamp,16),
-
-    iolist_to_binary([Str,string:to_lower(TimestampHex)]).
- 
-
-get_random_string(Length, AllowedChars) ->
-    lists:foldl(fun(_, Acc) ->
-                        [lists:nth(random:uniform(length(AllowedChars)),
-                                   AllowedChars)]
-                            ++ Acc
-                end, [], lists:seq(1, Length)).
-%% Internal functions
