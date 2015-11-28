@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Etzel Server!</title>
+    <script src="assets/react.js"></script>
+    <script src="assets/react-dom.js"></script>
+    <script src="assets/browser.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.min.css" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="bootstrap/dist/js/jquery.js"  crossorigin="anonymous"></script>
+<script src="bootstrap/dist/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+<script src="https://npmcdn.com/react-router/umd/ReactRouter.min.js"></script>
+  </head>
+  <body>
+
+
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Etzel</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Gist <span class="sr-only">(current)</span></a></li>
+        <li><a href="/users">Projects</a></li>
+        <li><a href="">Queues</a></li>
+
+      </ul>
+
+
+    </div><!-- /.navbar-collapse -->
+
+
+
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="wrapper">
+    <form class="form-signin">
+    <h1 style="display: run-in;text-align: center;">localhost:8080</h1>
+      <input type="email" class="form-control" name="username" placeholder="Email Address"  autofocus="" required/>
+      <br/>
+
+      <input type="password" class="form-control" name="password" placeholder="Password" required/>
+      <label class="checkbox" align="center">
+      <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+      </label>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+
+  </body>
+</html>
