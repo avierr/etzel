@@ -26,20 +26,44 @@ start_link() ->
 
 init([]) ->
    
-  %say("\nFilegen: Persistance Server Initiated. \n", []),
+  io:format("\nServerManager Process Initiated. \n", []),
   random:seed(erlang:now()),
     Ref=1,
   {ok, {Ref}}.
 
 
+handle_call({login_user,Email,Password},_From,{Prefix}) ->
+
+    %filelib:ensure_dir("hey/boe/cey/"),
+    Res = gen_server:call(whereis(datamanager),{get_user,Email}),
+
+    Reply = case Res of
+            
+            [] -> {error,err_UDNE,<<"username does not exist">>};
+            
+            _ ->
+            
+                [{Id,Username,DBPassword,DBSalt}] = Res,
+                BoolRes = commonlib:check_pass(Password,DBPassword,DBSalt),
+                io:format("\nBool: ~p",[BoolRes]),
+                case BoolRes of 
+                    true -> 
+                            {ok,Id,Username};
+                    false ->
+                            {error,err_UPDNE,<<"Username or Password does not match">>}
+
+                end
+
+            end,   
+
+
+    {reply,Reply,{Prefix}};
+
 handle_call({register_user,Email,Password},_From,{Prefix}) ->
 
     %filelib:ensure_dir("hey/boe/cey/"),
     {Hash,Salt}=commonlib:hash_pass(Password),
-    StrHash=(Hash),
-    gen_server:call(whereis(datamanager),{put_user,Email,StrHash,Salt}),
-    Reply={StrHash,Salt},
-
+    Reply=gen_server:call(whereis(datamanager),{put_user,Email,Hash,Salt}),
     {reply,Reply,{Prefix}};
 
 handle_call(create_proj_dir,_From,{Prefix}) ->

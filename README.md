@@ -41,3 +41,12 @@ gen_server:call(P,{lfd,<<"P1">>,<<"Q1">>,0}).
 gen_server:call(P,{pop,<<"P1">>,<<"Q1">>,0}).
 
 ````
+
+````
+ServerManager Test Sequence
+
+datamanager:start_link().
+servermanager:start_link().
+gen_server:call(whereis(servermanager),{register_user,<<"aabc">>,"1234"}).
+
+````

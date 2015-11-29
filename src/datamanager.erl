@@ -25,7 +25,7 @@ start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 init([]) ->
-  %say("\nFilegen: Persistance Server Initiated. \n", []),
+  io:format("\nDataManager Process Initiated. \n", []),
   random:seed(erlang:now()),
   Db=iolist_to_binary([?METADATA_PATH,<<"data.db">>]),
   {ok, Ref} = esqlite3:open(binary_to_list(Db)),
@@ -37,31 +37,15 @@ handle_call({put_user,Email,Password,Salt},_From,{Ref}) ->
 
     {ok, Statement} = esqlite3:prepare(<<"INSERT INTO users(username,password,salt) VALUES (?,?,?)">>,Ref),
     esqlite3:bind(Statement, [Email, Password,Salt]),
-    Res=esqlite3:step(Statement),
-
-    io:format("pass: ~p \n END",[Password]),
-
-    %filelib:ensure_dir("hey/boe/cey/"),
-    Reply = Res,
+    Reply=esqlite3:step(Statement),
     {reply,Reply,{Ref}};
 
-handle_call({get_user,Email,Password},_From,{Ref}) ->
+handle_call({get_user,Email},_From,{Ref}) ->
 
-    Res = esqlite3:q(<<"SELECT count(type) FROM sqlite_master WHERE username=? AND password=?;">>, [Email,Password], Ref),
-    Res=Res,
-    %filelib:ensure_dir("hey/boe/cey/"),
-    Reply = 1,
-    Email=Email,
-    Password=Password,
+    Reply = esqlite3:q(<<"SELECT * FROM users WHERE username=?">>, [Email], Ref),
 
     {reply,Reply,{Ref}};
 
-handle_call(create_proj_dir,_From,{Prefix}) ->
-
-    filelib:ensure_dir("hey/boe/cey/"),
-    Reply = 1,
-
-    {reply,Reply,{Prefix}};
 
 handle_call(_Request, _From, State) ->
     {reply, ignored, State}.
