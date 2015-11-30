@@ -10,8 +10,7 @@
          handle_cast/2,
          handle_info/2,
          terminate/2,
-         code_change/3,
-         get_random_string/2]).
+         code_change/3]).
 
 
 
@@ -21,7 +20,7 @@ start_link() ->
 init([]) ->
     random:seed(os:timestamp()),
 
-    Str = uidgen:get_random_string(2,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+    Str = commonlib:get_random_string(2,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),
     Strbin = erlang:list_to_binary(Str),
     {Mega, Secs, _} = os:timestamp(),
 
@@ -39,6 +38,8 @@ handle_call(getuid,_From,{Prefix,Counter}) ->
 
     {reply,Reply,{Prefix,Counter+1}};
 
+   
+
 handle_call(_Request, _From, State) ->
     {reply, ignored, State}.
 
@@ -55,10 +56,3 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 
-get_random_string(Length, AllowedChars) ->
-    lists:foldl(fun(_, Acc) ->
-                        [lists:nth(random:uniform(length(AllowedChars)),
-                                   AllowedChars)]
-                            ++ Acc
-                end, [], lists:seq(1, Length)).
-%% Internal functions

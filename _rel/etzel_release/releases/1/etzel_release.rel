@@ -7,6 +7,7 @@
           {jiffy,"git"},
           {eleveldb,"git"},
           {mustache,"0.1.1"},
+          {esqlite,"0.1.1"},
           {cowlib,"1.0.1"},
           {cowboy,"1.0.1"},
           {etzel,"0.1.0"}]}. 

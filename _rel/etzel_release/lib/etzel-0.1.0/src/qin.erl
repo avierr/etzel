@@ -4,7 +4,7 @@
 -export([starten/0,
             select_task/1,
             exec_task/2,
-            real_publish/2,
+            real_publish/5,
             push_to_disk/6]).
 %-on_load(starten/0).
 
@@ -125,13 +125,14 @@ exec_task(_,_) ->
 
 
 exec_publish(0,Map)->
+        ProjectId=proplists:get_value(<<"prj_id">>,Map),
         Qname=proplists:get_value(<<"qname">>,Map),
-        Msg=proplists:get_value(<<"msg">>,Map),
         Delay=proplists:get_value(<<"delay">>,Map),
         Expires=proplists:get_value(<<"expires">>,Map),
-        {MemItem,Uid}=gen_msg(Msg,Expires),
-        push_to_disk(Qname,Uid,0,Delay,Expires,Msg),
-        real_publish(Qname,MemItem);
+        Msg=proplists:get_value(<<"msg">>,Map),
+        %{MemItem,Uid}=gen_msg(Msg,Expires),
+        %push_to_disk(Qname,Uid,0,Delay,Expires,Msg), DEPRECATED
+        real_publish(ProjectId,Qname,Delay,Expires,Msg);
   
 
 
@@ -147,7 +148,9 @@ exec_publish(Ts,Map)->
         Ret=Ret.
 
 
-real_publish(Qname,Msg) ->
+real_publish(ProjectId,Qname,Delay,Expires,Msg) ->
+
+    Delay=Delay,Expires=Expires,ProjectId=ProjectId,
     %get list of members from intersection(Q,sleepQ) 
     %and send a AWAKE message 
     pg2:create(Qname),
@@ -177,7 +180,7 @@ real_publish(Qname,Msg) ->
            case ets:lookup(etzel_delset,qreglock) of
             [{_,0}] ->
                     ets:insert(etzel_delset, {qreglock, 1}),
-                    {ok,P2}=tq:start_link(),
+                    {ok,P2}=etzeldisk:start_link(),
                     pg2:join(PQname,P2),
                     ets:insert(etzel_delset, {qreglock, 0}),
                     gen_server:call(P2,{push,Msg}),

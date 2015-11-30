@@ -9,12 +9,16 @@ start(_Type, _Args) ->
     pg2:create(<<"__SLPL">>), %create a sleep list for proceses
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
+
                 {"/hello", cowboy_static, {priv_file, etzel, "HelloWorld.html"}},
                 {"/index", cowboy_static, {priv_file, etzel, "index.html"}},
         		{"/login/", login_handler, []},
                 {"/connect/",ws_handler, []},
                 {"/assets/[...]", cowboy_static, {priv_dir, etzel, "build/",[{mimetypes, cow_mimetypes, web}]}},
-                {"/bootstrap/[...]", cowboy_static, {priv_dir, etzel, "bootstrap/",[{mimetypes, cow_mimetypes, web}]}}
+                {"/bootstrap/[...]", cowboy_static, {priv_dir, etzel, "bootstrap/",[{mimetypes, cow_mimetypes, web}]}},
+
+        		{"/user/login", login_handler, []},
+                {"/connect/",ws_handler, []}
                ]}
 
     ]),
@@ -23,6 +27,7 @@ start(_Type, _Args) ->
     ),
 
 
+    random:seed(now()),
     {ok, Data} = file:read_file("ext/opener.txt"),
     io:format("~s",[Data]),
     ets:new(etzel_delset, [public,set, named_table]),

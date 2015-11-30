@@ -6,6 +6,7 @@
            {jiffy,"git","./lib/jiffy-git"},
            {eleveldb,"git","./lib/eleveldb-git"},
            {mustache,"0.1.1","./lib/mustache-0.1.1"},
+           {esqlite,"0.1.1","./lib/esqlite-0.1.1"},
            {cowlib,"1.0.1","./lib/cowlib-1.0.1"},
            {cowboy,"1.0.1","./lib/cowboy-1.0.1"},
            {etzel,"0.1.0","./lib/etzel-0.1.0"}],
