@@ -1,5 +1,13 @@
 # Etzel
 
+A Fast & Reliable open source Job delegation & queueing server.
+
+Etzel is built for Robust messaging between applications. It has built-in support for load-balancing and fault tolerance.
+
+- Build distributed applications that scale right from the start
+- Build applications that have no single point of failure
+- Decouple your program into components written in languages best suited for the task
+
 ````
 The program is currently under development. check back soon!
 
