@@ -18,7 +18,6 @@ handle(Req, State=#state{}) ->
     Ctx = dict:from_list([{name, binary_to_list(Data)}]),
      Result=mustache:render(binary_to_list(Home), Ctx),
 
-
     {ok, Req2} = cowboy_req:reply(200,
 	[{<<"content-type">>, <<"text/html">>}],
         Result,

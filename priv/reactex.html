@@ -5,3 +5,8 @@
         document.getElementById('example')
       );
     </script>
+
+    erlydtl:compile("Users/gavindmello/etzel/etzel/priv/etzelhome.html", welcome_template),
+    welcome_template:render([
+    {login, "Johnny"}
+    ]).

@@ -18,7 +18,14 @@
   </head>
   <body>
   {{{name}}}
+  <script type="type/JavaScript">
+$.post("http://",{username:"abcd",password:"1234"},function(result){
 
+    obj=JSON.parse(result);
+    console.log(obj);
+
+});
+</script>
 
   </body>
 </html>

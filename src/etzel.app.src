@@ -10,8 +10,8 @@
 		cowboy,
 		jiffy,
 		eleveldb,
-		mustache
-
+		mustache,
+		esqlite
 	]},
 	{mod, {etzel_app, []}},
 	{env, []}
