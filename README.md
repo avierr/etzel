@@ -1,5 +1,9 @@
 # Etzel
 
+![Etzel Build Status](https://travis-ci.org/evnix/etzel.svg?branch=master)
+
+Website: http://etzelserver.com
+
 A Fast & Reliable open source Job delegation & queueing server.
 
 Etzel is built for Robust messaging between applications. It has built-in support for load-balancing and fault tolerance.
