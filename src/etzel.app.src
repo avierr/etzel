@@ -10,7 +10,6 @@
 		cowboy,
 		jiffy,
 		eleveldb,
-		dtl,
 		esqlite
 		
 	]},

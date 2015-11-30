@@ -45,7 +45,7 @@ handle_call({login_user,Email,Password},_From,{Prefix}) ->
             
                 [{Id,Username,DBPassword,DBSalt}] = Res,
                 BoolRes = commonlib:check_pass(Password,DBPassword,DBSalt),
-                io:format("\nBool: ~p",[BoolRes]),
+                
                 case BoolRes of 
                     true -> 
                             {ok,Id,Username};
