@@ -11,7 +11,7 @@ start(_Type, _Args) ->
         {'_', [{"/", hello_handler, []},
 
                 {"/hello", cowboy_static, {priv_file, etzel, "HelloWorld.html"}},
-                {"/index", cowboy_static, {priv_file, etzel, "index.html"}},
+                {"/home", home_handler, []},
         		{"/login/", login_handler, []},
                 {"/connect/",ws_handler, []},
                 {"/assets/[...]", cowboy_static, {priv_dir, etzel, "build/",[{mimetypes, cow_mimetypes, web}]}},
