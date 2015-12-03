@@ -10,6 +10,7 @@ start(_Type, _Args) ->
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
         		{"/user/login", login_handler, []},
+                {"/user/get_session", get_session, []},
                 {"/connect/",ws_handler, []}
                ]}
         

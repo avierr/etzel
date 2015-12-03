@@ -15,7 +15,7 @@ handle(Req, State=#state{}) ->
 
 
 
-	Resp = case cowboy_req:has_body(Req) of
+	{NewReq,Resp} = case cowboy_req:has_body(Req) of
 
 
 		true ->
@@ -29,11 +29,18 @@ handle(Req, State=#state{}) ->
 
   					error ->
 
-  							jiffy:encode({[{<<"result">>, <<"error">>},{<<"errCode">>,IdOrError},{<<"msg">>,UsernameOrMsg}]});
+  							{Req,
+  								jiffy:encode({[{<<"result">>, <<"error">>},{<<"errCode">>,IdOrError},{<<"msg">>,UsernameOrMsg}]})};
 
   					ok ->
 
-  							jiffy:encode({[{<<"result">>, <<"ok">>},{<<"id">>,IdOrError},{<<"username">>,UsernameOrMsg}]})
+
+  							{ok,Req2}=cowboy_session:set("loggedin", true, Req),
+  							{ok,Req3}=cowboy_session:set("uid", IdOrError, Req2),
+  							{ok,Req4}=cowboy_session:set("username", UsernameOrMsg, Req3),
+
+  							{Req4,
+  								jiffy:encode({[{<<"result">>, <<"ok">>},{<<"id">>,IdOrError},{<<"username">>,UsernameOrMsg}]})}
 
   				end;	
 
@@ -41,17 +48,21 @@ handle(Req, State=#state{}) ->
 
 		false ->
 
-				   jiffy:encode({[{<<"result">>, <<"error">>},{<<"msg">>,<<"No POST parameters, requires username and password.">>}]})  
+				   {Req,
+				   		jiffy:encode({[{<<"result">>, <<"error">>},{<<"msg">>,<<"No POST parameters, requires username and password.">>}]})}  
 
 	end,
 	
 
-	{ok, Req2} = cowboy_req:reply(200,
+
+
+
+	{ok, ReqFinal} = cowboy_req:reply(200,
 					[{<<"content-type">>, <<"text/html">>}],
        				 Resp,
-         		Req),
+         		NewReq),
 
-	{ok, Req2, State}.
+	{ok, ReqFinal, State}.
 
 terminate(_Reason, _Req, _State) ->
 	ok.
