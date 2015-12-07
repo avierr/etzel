@@ -19,6 +19,7 @@ start(_Type, _Args) ->
 
         		{"/user/login", login_handler, []},
                 {"/user/projects", login_handler, []},
+                {"/user/get_session", get_session, []},
                 {"/connect/",ws_handler, []}
                ]}
 
