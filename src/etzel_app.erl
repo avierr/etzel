@@ -18,6 +18,7 @@ start(_Type, _Args) ->
                 {"/bootstrap/[...]", cowboy_static, {priv_dir, etzel, "bootstrap/",[{mimetypes, cow_mimetypes, web}]}},
 
         		{"/user/login", login_handler, []},
+                {"/user/projects", login_handler, []},
                 {"/connect/",ws_handler, []}
                ]}
 
