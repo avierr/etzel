@@ -8,5 +8,7 @@
 /Users/gavindmello/etzel/etzel/deps/lager
 /Users/gavindmello/etzel/etzel/deps/goldrush
 /Users/gavindmello/etzel/etzel/deps/neotoma
-/Users/gavindmello/etzel/etzel/deps/mustache
 /Users/gavindmello/etzel/etzel/deps/esqlite
+/Users/gavindmello/etzel/etzel/deps/cowboy_session
+/Users/gavindmello/etzel/etzel/deps/gproc
+/Users/gavindmello/etzel/etzel/deps/uuid

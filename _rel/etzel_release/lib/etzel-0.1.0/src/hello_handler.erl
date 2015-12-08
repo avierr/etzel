@@ -13,12 +13,10 @@ init(_, Req, _Opts) ->
 
 handle(Req, State=#state{}) ->
 
-
-    {ok, Menu} = file:read_file("ext/tpl/menu.html"),
     {ok, Data} = file:read_file("ext/tpl/login.html"),
     {ok, Home} = file:read_file("ext/tpl/etzelhome.html"),
 
-    Con = dict:from_list([{content, binary_to_list(Data)},{menu, binary_to_list(Menu)}]),
+    Con = dict:from_list([{content, binary_to_list(Data)}]),
     Result=mustache:render(binary_to_list(Home), Con),
 
     {ok, Req2} = cowboy_req:reply(200,

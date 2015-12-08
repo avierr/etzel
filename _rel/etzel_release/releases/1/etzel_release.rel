@@ -1,7 +1,9 @@
 {release,{"etzel_release","1"},
          {erts,"7.1"},
-         [{kernel,"4.1"},
+         [{uuid,"git"},
+          {kernel,"4.1"},
           {stdlib,"2.6"},
+          {gproc,"git"},
           {ranch,"1.1.0"},
           {crypto,"3.6.1"},
           {jiffy,"git"},
@@ -9,5 +11,6 @@
           {mustache,"0.1.1"},
           {esqlite,"0.1.1"},
           {cowlib,"1.0.1"},
+          {cowboy_session,"git"},
           {cowboy,"1.0.1"},
           {etzel,"0.1.0"}]}. 

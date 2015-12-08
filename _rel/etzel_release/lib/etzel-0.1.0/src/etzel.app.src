@@ -11,7 +11,10 @@
 		jiffy,
 		eleveldb,
 		mustache,
-		esqlite
+		esqlite,
+		esqlite,
+		cowboy_session
+
 	]},
 	{mod, {etzel_app, []}},
 	{env, []}

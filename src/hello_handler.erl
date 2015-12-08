@@ -13,8 +13,6 @@ init(_, Req, _Opts) ->
 
 handle(Req, State=#state{}) ->
 
-
-    {ok, Menu} = file:read_file("ext/tpl/menu.html"),
     {ok, Data} = file:read_file("ext/tpl/login.html"),
     {ok, Home} = file:read_file("ext/tpl/etzelhome.html"),
 

@@ -1,6 +1,8 @@
 [{release,"etzel_release","1","7.1",
-          [{kernel,"4.1","./lib/kernel-4.1"},
+          [{uuid,"git","./lib/uuid-git"},
+           {kernel,"4.1","./lib/kernel-4.1"},
            {stdlib,"2.6","./lib/stdlib-2.6"},
+           {gproc,"git","./lib/gproc-git"},
            {ranch,"1.1.0","./lib/ranch-1.1.0"},
            {crypto,"3.6.1","./lib/crypto-3.6.1"},
            {jiffy,"git","./lib/jiffy-git"},
@@ -8,6 +10,7 @@
            {mustache,"0.1.1","./lib/mustache-0.1.1"},
            {esqlite,"0.1.1","./lib/esqlite-0.1.1"},
            {cowlib,"1.0.1","./lib/cowlib-1.0.1"},
+           {cowboy_session,"git","./lib/cowboy_session-git"},
            {cowboy,"1.0.1","./lib/cowboy-1.0.1"},
            {etzel,"0.1.0","./lib/etzel-0.1.0"}],
           permanent}].
