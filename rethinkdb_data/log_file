@@ -1,0 +1,13 @@
+2015-12-07T18:22:54.533865000 0.816712s notice: Recursively removing directory /Users/gavindmello/etzel/etzel/rethinkdb_data/tmp
+2015-12-07T18:22:54.534867000 0.817716s notice: Initializing directory /Users/gavindmello/etzel/etzel/rethinkdb_data
+2015-12-07T18:22:54.534938000 0.817783s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/gavindmello/etzel/etzel/rethinkdb_data' did not already exist or is empty.)
+2015-12-07T18:22:54.534964000 0.817810s notice: Running rethinkdb 2.2.1 (CLANG 7.0.0 (clang-700.1.76))...
+2015-12-07T18:22:54.538694000 0.821541s notice: Running on Darwin 14.5.0 x86_64
+2015-12-07T18:22:54.538730000 0.821576s notice: Loading data from directory /Users/gavindmello/etzel/etzel/rethinkdb_data
+2015-12-07T18:22:55.525686000 1.808515s info: Automatically using cache size of 613 MB
+2015-12-07T18:22:55.526106000 1.808935s notice: Listening for intracluster connections on port 29015
+2015-12-07T18:22:55.527304000 1.810133s notice: Listening for client driver connections on port 28015
+2015-12-07T18:22:55.527413000 1.810242s notice: Listening for administrative HTTP connections on port 8080
+2015-12-07T18:22:55.527419000 1.810248s notice: Listening on addresses: 127.0.0.1, ::1
+2015-12-07T18:22:55.527420000 1.810249s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2015-12-07T18:22:55.527423000 1.810252s notice: Server ready, "Gavins_Mac_mini_local_m0v" 6cbbdfa2-ac44-4a47-bd33-f637c6ed8c45

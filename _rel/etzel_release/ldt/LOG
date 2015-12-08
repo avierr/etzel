@@ -1,30 +1,30 @@
-2015/12/07-18:19:27.318553 b28ef000             Options.comparator: leveldb.InternalKeyComparator
-2015/12/07-18:19:27.318584 b28ef000      Options.create_if_missing: 1
-2015/12/07-18:19:27.318588 b28ef000        Options.error_if_exists: 0
-2015/12/07-18:19:27.318591 b28ef000        Options.paranoid_checks: 0
-2015/12/07-18:19:27.318593 b28ef000     Options.verify_compactions: 1
-2015/12/07-18:19:27.318595 b28ef000                    Options.env: 0x7f8aa97004c0
-2015/12/07-18:19:27.318598 b28ef000               Options.info_log: 0x7f8aa9500eb0
-2015/12/07-18:19:27.318600 b28ef000      Options.write_buffer_size: 20971520
-2015/12/07-18:19:27.318603 b28ef000         Options.max_open_files: 1000
-2015/12/07-18:19:27.318605 b28ef000            Options.block_cache: 0x7f8aaa01ea00
-2015/12/07-18:19:27.318608 b28ef000             Options.block_size: 4096
-2015/12/07-18:19:27.318610 b28ef000       Options.block_size_steps: 16
-2015/12/07-18:19:27.318613 b28ef000 Options.block_restart_interval: 16
-2015/12/07-18:19:27.318615 b28ef000            Options.compression: 1
-2015/12/07-18:19:27.318617 b28ef000          Options.filter_policy: NULL
-2015/12/07-18:19:27.318620 b28ef000              Options.is_repair: false
-2015/12/07-18:19:27.318622 b28ef000         Options.is_internal_db: false
-2015/12/07-18:19:27.318624 b28ef000      Options.total_leveldb_mem: 0
-2015/12/07-18:19:27.318627 b28ef000  Options.block_cache_threshold: 33554432
-2015/12/07-18:19:27.318629 b28ef000  Options.limited_developer_mem: false
-2015/12/07-18:19:27.318632 b28ef000              Options.mmap_size: 0
-2015/12/07-18:19:27.318634 b28ef000       Options.delete_threshold: 1000
-2015/12/07-18:19:27.318636 b28ef000       Options.fadvise_willneed: false
-2015/12/07-18:19:27.318639 b28ef000      Options.tiered_slow_level: 0
-2015/12/07-18:19:27.318641 b28ef000     Options.tiered_fast_prefix: ldt
-2015/12/07-18:19:27.318643 b28ef000     Options.tiered_slow_prefix: ldt
-2015/12/07-18:19:27.318646 b28ef000                         crc32c: hardware
-2015/12/07-18:19:27.318648 b28ef000                File cache size: 186642432
-2015/12/07-18:19:27.318651 b28ef000               Block cache size: 188739584
-2015/12/07-18:19:27.326555 b28ef000 Delete type=3 #1
+2015/12/08-16:34:23.709514 b3019000             Options.comparator: leveldb.InternalKeyComparator
+2015/12/08-16:34:23.709541 b3019000      Options.create_if_missing: 1
+2015/12/08-16:34:23.709545 b3019000        Options.error_if_exists: 0
+2015/12/08-16:34:23.709547 b3019000        Options.paranoid_checks: 0
+2015/12/08-16:34:23.709550 b3019000     Options.verify_compactions: 1
+2015/12/08-16:34:23.709552 b3019000                    Options.env: 0x7fb64241ed10
+2015/12/08-16:34:23.709554 b3019000               Options.info_log: 0x7fb6427007f0
+2015/12/08-16:34:23.709557 b3019000      Options.write_buffer_size: 20971520
+2015/12/08-16:34:23.709559 b3019000         Options.max_open_files: 1000
+2015/12/08-16:34:23.709561 b3019000            Options.block_cache: 0x7fb643005e00
+2015/12/08-16:34:23.709564 b3019000             Options.block_size: 4096
+2015/12/08-16:34:23.709566 b3019000       Options.block_size_steps: 16
+2015/12/08-16:34:23.709568 b3019000 Options.block_restart_interval: 16
+2015/12/08-16:34:23.709570 b3019000            Options.compression: 1
+2015/12/08-16:34:23.709573 b3019000          Options.filter_policy: NULL
+2015/12/08-16:34:23.709575 b3019000              Options.is_repair: false
+2015/12/08-16:34:23.709577 b3019000         Options.is_internal_db: false
+2015/12/08-16:34:23.709580 b3019000      Options.total_leveldb_mem: 0
+2015/12/08-16:34:23.709582 b3019000  Options.block_cache_threshold: 33554432
+2015/12/08-16:34:23.709584 b3019000  Options.limited_developer_mem: false
+2015/12/08-16:34:23.709587 b3019000              Options.mmap_size: 0
+2015/12/08-16:34:23.709589 b3019000       Options.delete_threshold: 1000
+2015/12/08-16:34:23.709591 b3019000       Options.fadvise_willneed: false
+2015/12/08-16:34:23.709593 b3019000      Options.tiered_slow_level: 0
+2015/12/08-16:34:23.709596 b3019000     Options.tiered_fast_prefix: ldt
+2015/12/08-16:34:23.709598 b3019000     Options.tiered_slow_prefix: ldt
+2015/12/08-16:34:23.709600 b3019000                         crc32c: hardware
+2015/12/08-16:34:23.709603 b3019000                File cache size: 186642432
+2015/12/08-16:34:23.709605 b3019000               Block cache size: 188739584
+2015/12/08-16:34:23.718044 b3019000 Delete type=3 #1

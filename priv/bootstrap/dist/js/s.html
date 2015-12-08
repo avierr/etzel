@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Display Progress</title>
+    <script src="jquery.js"
+    type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        var geoList = [
+             { Country: "India", State: "Delhi" },
+             { Country: "US", State: "Alabama" },
+             { Country: "US", State: "Georgia" },
+             { Country: "US", State: "Texas" },
+             { Country: "US", State: "NewYork" }
+             ];
+            $('#dynamicList').append("<div id='cList'></div>");
+            for (i = 0; i < geoList.length; i++) {
+                $("#cList").append("<a href="#" class="list-group-item">" +
+                geoList[i].Country + "-" +
+                geoList[i].State + "<button class="btn btn-xs btn-warning">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </span></a>");
+            }
+        });
+    </script>
+</head>
+<body>
+    <form id="form1">
+    <div>
+        <div id="LoadPage">
+        </div>
+    </div>
+    </form>
+</body>
+</html>
