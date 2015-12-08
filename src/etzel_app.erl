@@ -17,7 +17,7 @@ start(_Type, _Args) ->
     ]),
     {ok, _} = cowboy:start_http(my_http_listener, 100, [{port, 8080}],
         [{env, [{dispatch, Dispatch}]},
-        {middlewares, [checklogin_middleware]}]
+        {middlewares, [cowboy_router,checklogin_middleware]}]
     ),
 
 
