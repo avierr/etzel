@@ -52,7 +52,7 @@ execute(Req, Env) ->
 
 						  io:format("~pThere",[Path]),
 
-							{ok,Req3,Env}	
+							{ok,Req,Env}	
 
 				end				
 

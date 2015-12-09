@@ -10,6 +10,7 @@ start(_Type, _Args) ->
     Dispatch = cowboy_router:compile([
         {'_', [{"/", hello_handler, []},
         		{"/user/login", login_handler, []},
+                {"/user/logout", del_session, []},
                 {"/user/get_session", get_session, []},
                 {"/connect/",ws_handler, []}
                ]}
@@ -17,7 +18,7 @@ start(_Type, _Args) ->
     ]),
     {ok, _} = cowboy:start_http(my_http_listener, 100, [{port, 8080}],
         [{env, [{dispatch, Dispatch}]},
-        {middlewares, [cowboy_router,checklogin_middleware]}]
+        {middlewares, [cowboy_router,checklogin_middleware, cowboy_handler]}]
     ),
 
 
