@@ -5,16 +5,16 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='libsnappy.1.dylib'
+dlname='libsnappy.so.1'
 
 # Names of this library.
-library_names='libsnappy.1.dylib libsnappy.dylib'
+library_names='libsnappy.so.1.1.2 libsnappy.so.1 libsnappy.so'
 
 # The name of the static archive.
 old_library='libsnappy.a'
 
 # Linker flags that can not go in dependency_libs.
-inherited_linker_flags=' '
+inherited_linker_flags=''
 
 # Libraries that this one depends upon.
 dependency_libs=''
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/Users/gavindmello/etzel/etzel/deps/eleveldb/c_src/system/lib'
+libdir='/home/gavin/etzel/deps/eleveldb/c_src/system/lib'

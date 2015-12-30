@@ -1,11 +1,9 @@
-ERL_CFLAGS = -finline-functions -Wall -fPIC -I /usr/local/Cellar/erlang/18.1/lib/erlang/erts-7.1/include -I /usr/local/Cellar/erlang/18.1/lib/erlang/lib/erl_interface-3.8/include
-ERL_LDFLAGS = -L /usr/local/Cellar/erlang/18.1/lib/erlang/lib/erl_interface-3.8/lib -lerl_interface -lei
+ERL_CFLAGS = -finline-functions -Wall -fPIC -I /usr/lib/erlang/erts-7.0/include -I /usr/lib/erlang/lib/erl_interface-3.8/include
+ERL_LDFLAGS = -L /usr/lib/erlang/lib/erl_interface-3.8/lib -lerl_interface -lei
 
 CFLAGS =  -Ic_src/ -g -Wall  -O3 -fno-strict-aliasing
 CXXFLAGS =  -Ic_src/ -g -Wall  -O3
 LDFLAGS =  -lstdc++
-
-LDFLAGS += -flat_namespace -undefined suppress
 
 all:: priv/jiffy.so
 

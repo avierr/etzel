@@ -1,49 +1,31 @@
-snappy-sinksource.lo: snappy-sinksource.cc /usr/include/string.h \
-  /usr/include/_types.h /usr/include/sys/_types.h \
-  /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h \
-  /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h \
-  /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h \
-  /usr/include/Availability.h /usr/include/AvailabilityInternal.h \
-  /usr/include/sys/_types/_size_t.h /usr/include/sys/_types/_null.h \
-  /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h \
-  /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h \
-  snappy-sinksource.h \
-  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stddef.h
+snappy-sinksource.lo: snappy-sinksource.cc /usr/include/stdc-predef.h \
+ /usr/include/string.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+ /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+ snappy-sinksource.h
+
+/usr/include/stdc-predef.h:
 
 /usr/include/string.h:
 
-/usr/include/_types.h:
+/usr/include/features.h:
 
-/usr/include/sys/_types.h:
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
-/usr/include/sys/cdefs.h:
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/usr/include/sys/_symbol_aliasing.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/sys/_posix_availability.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/machine/_types.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
-/usr/include/i386/_types.h:
+/usr/include/xlocale.h:
 
-/usr/include/sys/_pthread/_pthread_types.h:
-
-/usr/include/Availability.h:
-
-/usr/include/AvailabilityInternal.h:
-
-/usr/include/sys/_types/_size_t.h:
-
-/usr/include/sys/_types/_null.h:
-
-/usr/include/sys/_types/_rsize_t.h:
-
-/usr/include/sys/_types/_errno_t.h:
-
-/usr/include/sys/_types/_ssize_t.h:
-
-/usr/include/strings.h:
+/usr/include/x86_64-linux-gnu/bits/string3.h:
 
 snappy-sinksource.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stddef.h:

@@ -17,16 +17,16 @@ start(_Type, _Args) ->
                 {"/connect/",ws_handler, []},
                 {"/assets/[...]", cowboy_static, {priv_dir, etzel, "build/",[{mimetypes, cow_mimetypes, web}]}},
                 {"/bootstrap/[...]", cowboy_static, {priv_dir, etzel, "bootstrap/",[{mimetypes, cow_mimetypes, web}]}},
-
         		{"/user/login", login_handler, []},
-                {"/user/projects", login_handler, []},
+                {"/user/logout", del_session, []},
                 {"/user/get_session", get_session, []},
                 {"/connect/",ws_handler, []}
                ]}
 
     ]),
     {ok, _} = cowboy:start_http(my_http_listener, 100, [{port, 8080}],
-        [{env, [{dispatch, Dispatch}]}]
+        [{env, [{dispatch, Dispatch}]},
+        {middlewares, [cowboy_router,checklogin_middleware, cowboy_handler]}]
     ),
 
 

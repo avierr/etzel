@@ -2,3 +2,14 @@
 /home/gavin/etzel/deps/cowlib
 /home/gavin/etzel/deps/ranch
 /home/gavin/etzel/deps/jiffy
+/home/gavin/etzel/deps/eleveldb
+/home/gavin/etzel/deps/cuttlefish
+/home/gavin/etzel/deps/getopt
+/home/gavin/etzel/deps/lager
+/home/gavin/etzel/deps/goldrush
+/home/gavin/etzel/deps/neotoma
+/home/gavin/etzel/deps/esqlite
+/home/gavin/etzel/deps/cowboy_session
+/home/gavin/etzel/deps/gproc
+/home/gavin/etzel/deps/uuid
+/home/gavin/etzel/deps/mustache

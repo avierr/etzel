@@ -16,9 +16,7 @@
 </div>
 
        <script type="text/javascript">
-// #{'projects': [{'id': '0', 'name': 'blabla'}, {'id': '0', 'name': 'blabla'}]}
-    // data=JSON.parse(result);
-    // l=[]
+
     // for(var i=0;i<data.projects.length;i++)
     // {
     //     $('<li />', {html: data.projects[i].name}).appendTo('div.list-group')
@@ -26,18 +24,15 @@
     // }
 
    $(document).ready(function() {
-        var geoList = [
-             { Country: "India", State: "Delhi" },
-             { Country: "US", State: "Alabama" },
-             { Country: "US", State: "Georgia" },
-             { Country: "US", State: "Texas" },
-             { Country: "US", State: "NewYork" }
-             ];
+    // #{'projects': [{'id': '0', 'Name': 'blabla'}, {'id': '0', 'Name': 'blabla'}]}
+    $.get( "/url", function( result ) {
+     data=JSON.parse(result);
             $('#dynamicList').append("<div id='cList' class='list-group'></div>");
-            for (i = 0; i < geoList.length; i++) {
-                $("#cList").append("<a href='#' class='list-group-item'>" +geoList[i].Country + "-" +geoList[i].State + "<span class='pull-right'> <button class='btn btn-xs btn-warning'> <span class='glyphicon glyphicon-trash'> </span> </button> </span> </a>");
+            for (i = 0; i < data.projects.length; i++) {
+                $("#cList").append("<a href='#' class='list-group-item'>" +data.projects[i].Name + "<span class='pull-right'> <button class='btn btn-xs btn-warning'> <span class='glyphicon glyphicon-trash'> </span> </button> </span> </a>");
             }
         });
+     });
 </script>
 
 

@@ -4,4 +4,4 @@
               {registered,[]},
               {applications,[]},
               {env,[]},
-              {modules, ['uuid']}]}.
+              {modules, []}]}.

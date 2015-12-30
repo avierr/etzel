@@ -1,536 +1,357 @@
 snappy-stubs-internal.lo: snappy-stubs-internal.cc \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/algorithm \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__config \
-  /usr/include/unistd.h /usr/include/_types.h /usr/include/sys/_types.h \
-  /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h \
-  /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h \
-  /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h \
-  /usr/include/sys/unistd.h /usr/include/sys/_types/_posix_vdisable.h \
-  /usr/include/sys/_types/_seek_set.h /usr/include/sys/_types/_size_t.h \
-  /usr/include/_types/_uint64_t.h /usr/include/Availability.h \
-  /usr/include/AvailabilityInternal.h /usr/include/sys/_types/_ssize_t.h \
-  /usr/include/sys/_types/_uid_t.h /usr/include/sys/_types/_gid_t.h \
-  /usr/include/sys/_types/_intptr_t.h /usr/include/sys/_types/_off_t.h \
-  /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_useconds_t.h \
-  /usr/include/sys/_types/_null.h /usr/include/sys/select.h \
-  /usr/include/sys/appleapiopts.h /usr/include/sys/_types/_fd_def.h \
-  /usr/include/sys/_types/_timespec.h /usr/include/sys/_types/_timeval.h \
-  /usr/include/sys/_types/_time_t.h \
-  /usr/include/sys/_types/_suseconds_t.h \
-  /usr/include/sys/_types/_sigset_t.h \
-  /usr/include/sys/_types/_fd_setsize.h \
-  /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h \
-  /usr/include/sys/_types/_fd_isset.h /usr/include/sys/_types/_fd_zero.h \
-  /usr/include/sys/_types/_fd_copy.h /usr/include/sys/_select.h \
-  /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h \
-  /usr/include/sys/_types/_uuid_t.h /usr/include/gethostuuid.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/initializer_list \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstddef \
-  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stddef.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/type_traits \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstring \
-  /usr/include/string.h /usr/include/sys/_types/_rsize_t.h \
-  /usr/include/sys/_types/_errno_t.h /usr/include/strings.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/utility \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__tuple \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__tuple_03 \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/memory \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/typeinfo \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/exception \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdint \
-  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stdint.h \
-  /usr/include/stdint.h /usr/include/sys/_types/_int8_t.h \
-  /usr/include/sys/_types/_int16_t.h /usr/include/sys/_types/_int32_t.h \
-  /usr/include/sys/_types/_int64_t.h /usr/include/_types/_uint8_t.h \
-  /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h \
-  /usr/include/sys/_types/_uintptr_t.h /usr/include/_types/_intmax_t.h \
-  /usr/include/_types/_uintmax_t.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/new \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/limits \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__undef_min_max \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iterator \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_base \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_base_03 \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iosfwd \
-  /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h \
-  /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h \
-  /usr/include/sys/_types/_wchar_t.h \
-  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stdarg.h \
-  /usr/include/stdio.h /usr/include/sys/_types/_va_list.h \
-  /usr/include/sys/stdio.h /usr/include/time.h \
-  /usr/include/sys/_types/_clock_t.h /usr/include/_wctype.h \
-  /usr/include/sys/_types/_wint_t.h /usr/include/_types/_wctype_t.h \
-  /usr/include/ctype.h /usr/include/runetype.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__debug \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/tuple \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/string \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdio \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwchar \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwctype \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cctype \
-  /usr/include/wctype.h /usr/include/_types/_wctrans_t.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/stdexcept \
-  snappy-stubs-internal.h config.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iostream \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ios \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__locale \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/mutex \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__mutex_base \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/chrono \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ctime \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ratio \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/climits \
-  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/limits.h \
-  /usr/include/limits.h /usr/include/machine/limits.h \
-  /usr/include/i386/limits.h /usr/include/i386/_limits.h \
-  /usr/include/sys/syslimits.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/system_error \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cerrno \
-  /usr/include/errno.h /usr/include/sys/errno.h /usr/include/pthread.h \
-  /usr/include/pthread/pthread_impl.h /usr/include/pthread/sched.h \
-  /usr/include/sys/_pthread/_pthread_attr_t.h \
-  /usr/include/sys/_pthread/_pthread_cond_t.h \
-  /usr/include/sys/_pthread/_pthread_condattr_t.h \
-  /usr/include/sys/_pthread/_pthread_key_t.h \
-  /usr/include/sys/_pthread/_pthread_mutex_t.h \
-  /usr/include/sys/_pthread/_pthread_mutexattr_t.h \
-  /usr/include/sys/_pthread/_pthread_once_t.h \
-  /usr/include/sys/_pthread/_pthread_rwlock_t.h \
-  /usr/include/sys/_pthread/_pthread_rwlockattr_t.h \
-  /usr/include/sys/_pthread/_pthread_t.h /usr/include/pthread/qos.h \
-  /usr/include/sys/qos.h /usr/include/sys/_types/_mach_port_t.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/functional \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_03 \
-  /usr/include/locale.h /usr/include/_locale.h /usr/include/xlocale.h \
-  /usr/include/_xlocale.h /usr/include/xlocale/_ctype.h \
-  /usr/include/xlocale/__wctype.h /usr/include/xlocale/_stdio.h \
-  /usr/include/xlocale/_string.h /usr/include/xlocale/_time.h \
-  /usr/include/xlocale/_wchar.h /usr/include/xlocale/_wctype.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/streambuf \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/istream \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ostream \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/locale \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdlib \
-  /usr/include/stdlib.h /usr/include/sys/wait.h \
-  /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h \
-  /usr/include/machine/signal.h /usr/include/i386/signal.h \
-  /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h \
-  /usr/include/mach/i386/_structs.h \
-  /usr/include/sys/_types/_sigaltstack.h \
-  /usr/include/sys/_types/_ucontext.h /usr/include/sys/resource.h \
-  /usr/include/machine/endian.h /usr/include/i386/endian.h \
-  /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h \
-  /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h \
-  /usr/include/machine/types.h /usr/include/i386/types.h \
-  /usr/include/xlocale/_stdlib.h /usr/include/nl_types.h \
-  /usr/include/sys/types.h /usr/include/sys/_types/_blkcnt_t.h \
-  /usr/include/sys/_types/_blksize_t.h \
-  /usr/include/sys/_types/_in_addr_t.h \
-  /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h \
-  /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h \
-  /usr/include/sys/_types/_nlink_t.h \
-  /usr/include/sys/_types/_fsblkcnt_t.h \
-  /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/_types/_nl_item.h \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/bitset \
-  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__bit_reference \
-  /usr/include/assert.h /usr/include/sys/mman.h snappy-stubs-public.h
+ /usr/include/stdc-predef.h /usr/include/c++/4.8/algorithm \
+ /usr/include/c++/4.8/utility \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+ /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ /usr/include/c++/4.8/bits/stl_relops.h \
+ /usr/include/c++/4.8/bits/stl_pair.h /usr/include/c++/4.8/bits/move.h \
+ /usr/include/c++/4.8/bits/concept_check.h \
+ /usr/include/c++/4.8/bits/stl_algobase.h \
+ /usr/include/c++/4.8/bits/functexcept.h \
+ /usr/include/c++/4.8/bits/exception_defines.h \
+ /usr/include/c++/4.8/bits/cpp_type_traits.h \
+ /usr/include/c++/4.8/ext/type_traits.h \
+ /usr/include/c++/4.8/ext/numeric_traits.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.8/debug/debug.h \
+ /usr/include/c++/4.8/bits/stl_iterator.h \
+ /usr/include/c++/4.8/bits/stl_algo.h /usr/include/c++/4.8/cstdlib \
+ /usr/include/stdlib.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/xlocale.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/sigset.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+ /usr/include/c++/4.8/bits/algorithmfwd.h \
+ /usr/include/c++/4.8/bits/stl_heap.h \
+ /usr/include/c++/4.8/bits/stl_tempbuf.h \
+ /usr/include/c++/4.8/bits/stl_construct.h /usr/include/c++/4.8/new \
+ /usr/include/c++/4.8/exception \
+ /usr/include/c++/4.8/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/4.8/ext/alloc_traits.h \
+ /usr/include/c++/4.8/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+ /usr/include/c++/4.8/ext/new_allocator.h \
+ /usr/include/c++/4.8/bits/memoryfwd.h /usr/include/c++/4.8/string \
+ /usr/include/c++/4.8/bits/stringfwd.h \
+ /usr/include/c++/4.8/bits/char_traits.h \
+ /usr/include/c++/4.8/bits/postypes.h /usr/include/c++/4.8/cwchar \
+ /usr/include/wchar.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+ /usr/include/c++/4.8/bits/localefwd.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+ /usr/include/c++/4.8/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/iosfwd \
+ /usr/include/c++/4.8/cctype /usr/include/ctype.h \
+ /usr/include/c++/4.8/bits/ostream_insert.h \
+ /usr/include/c++/4.8/bits/cxxabi_forced.h \
+ /usr/include/c++/4.8/bits/stl_function.h \
+ /usr/include/c++/4.8/backward/binders.h \
+ /usr/include/c++/4.8/bits/range_access.h \
+ /usr/include/c++/4.8/bits/basic_string.h \
+ /usr/include/c++/4.8/ext/atomicity.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/timex.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+ /usr/include/c++/4.8/bits/basic_string.tcc snappy-stubs-internal.h \
+ config.h /usr/include/c++/4.8/iostream /usr/include/c++/4.8/ostream \
+ /usr/include/c++/4.8/ios /usr/include/c++/4.8/bits/ios_base.h \
+ /usr/include/c++/4.8/bits/locale_classes.h \
+ /usr/include/c++/4.8/bits/locale_classes.tcc \
+ /usr/include/c++/4.8/streambuf /usr/include/c++/4.8/bits/streambuf.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.h \
+ /usr/include/c++/4.8/bits/locale_facets.h /usr/include/c++/4.8/cwctype \
+ /usr/include/wctype.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+ /usr/include/c++/4.8/bits/streambuf_iterator.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+ /usr/include/c++/4.8/bits/locale_facets.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.tcc \
+ /usr/include/c++/4.8/bits/ostream.tcc /usr/include/c++/4.8/istream \
+ /usr/include/c++/4.8/bits/istream.tcc /usr/include/assert.h \
+ /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+ /usr/include/x86_64-linux-gnu/sys/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman-linux.h snappy-stubs-public.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h
+
+/usr/include/stdc-predef.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/algorithm:
+/usr/include/c++/4.8/algorithm:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__config:
+/usr/include/c++/4.8/utility:
 
-/usr/include/unistd.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h:
 
-/usr/include/_types.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h:
 
-/usr/include/sys/_types.h:
+/usr/include/features.h:
 
-/usr/include/sys/cdefs.h:
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
-/usr/include/sys/_symbol_aliasing.h:
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/usr/include/sys/_posix_availability.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/machine/_types.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/i386/_types.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h:
 
-/usr/include/sys/_pthread/_pthread_types.h:
+/usr/include/c++/4.8/bits/stl_relops.h:
 
-/usr/include/sys/unistd.h:
+/usr/include/c++/4.8/bits/stl_pair.h:
 
-/usr/include/sys/_types/_posix_vdisable.h:
+/usr/include/c++/4.8/bits/move.h:
 
-/usr/include/sys/_types/_seek_set.h:
+/usr/include/c++/4.8/bits/concept_check.h:
 
-/usr/include/sys/_types/_size_t.h:
+/usr/include/c++/4.8/bits/stl_algobase.h:
 
-/usr/include/_types/_uint64_t.h:
+/usr/include/c++/4.8/bits/functexcept.h:
 
-/usr/include/Availability.h:
+/usr/include/c++/4.8/bits/exception_defines.h:
 
-/usr/include/AvailabilityInternal.h:
+/usr/include/c++/4.8/bits/cpp_type_traits.h:
 
-/usr/include/sys/_types/_ssize_t.h:
+/usr/include/c++/4.8/ext/type_traits.h:
 
-/usr/include/sys/_types/_uid_t.h:
+/usr/include/c++/4.8/ext/numeric_traits.h:
 
-/usr/include/sys/_types/_gid_t.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_types.h:
 
-/usr/include/sys/_types/_intptr_t.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_funcs.h:
 
-/usr/include/sys/_types/_off_t.h:
+/usr/include/c++/4.8/debug/debug.h:
 
-/usr/include/sys/_types/_pid_t.h:
+/usr/include/c++/4.8/bits/stl_iterator.h:
 
-/usr/include/sys/_types/_useconds_t.h:
+/usr/include/c++/4.8/bits/stl_algo.h:
 
-/usr/include/sys/_types/_null.h:
+/usr/include/c++/4.8/cstdlib:
 
-/usr/include/sys/select.h:
+/usr/include/stdlib.h:
 
-/usr/include/sys/appleapiopts.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
-/usr/include/sys/_types/_fd_def.h:
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
-/usr/include/sys/_types/_timespec.h:
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
-/usr/include/sys/_types/_timeval.h:
+/usr/include/endian.h:
 
-/usr/include/sys/_types/_time_t.h:
+/usr/include/x86_64-linux-gnu/bits/endian.h:
 
-/usr/include/sys/_types/_suseconds_t.h:
+/usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
-/usr/include/sys/_types/_sigset_t.h:
+/usr/include/x86_64-linux-gnu/bits/types.h:
 
-/usr/include/sys/_types/_fd_setsize.h:
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
-/usr/include/sys/_types/_fd_set.h:
+/usr/include/x86_64-linux-gnu/bits/byteswap-16.h:
 
-/usr/include/sys/_types/_fd_clr.h:
+/usr/include/xlocale.h:
 
-/usr/include/sys/_types/_fd_isset.h:
-
-/usr/include/sys/_types/_fd_zero.h:
-
-/usr/include/sys/_types/_fd_copy.h:
-
-/usr/include/sys/_select.h:
-
-/usr/include/sys/_types/_dev_t.h:
-
-/usr/include/sys/_types/_mode_t.h:
-
-/usr/include/sys/_types/_uuid_t.h:
-
-/usr/include/gethostuuid.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/initializer_list:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstddef:
-
-/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stddef.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/type_traits:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstring:
-
-/usr/include/string.h:
-
-/usr/include/sys/_types/_rsize_t.h:
-
-/usr/include/sys/_types/_errno_t.h:
-
-/usr/include/strings.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/utility:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__tuple:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__tuple_03:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/memory:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/typeinfo:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/exception:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdint:
-
-/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stdint.h:
-
-/usr/include/stdint.h:
-
-/usr/include/sys/_types/_int8_t.h:
-
-/usr/include/sys/_types/_int16_t.h:
-
-/usr/include/sys/_types/_int32_t.h:
-
-/usr/include/sys/_types/_int64_t.h:
-
-/usr/include/_types/_uint8_t.h:
-
-/usr/include/_types/_uint16_t.h:
-
-/usr/include/_types/_uint32_t.h:
-
-/usr/include/sys/_types/_uintptr_t.h:
-
-/usr/include/_types/_intmax_t.h:
-
-/usr/include/_types/_uintmax_t.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/new:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/limits:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__undef_min_max:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iterator:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_base:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_base_03:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iosfwd:
-
-/usr/include/wchar.h:
-
-/usr/include/sys/_types/_mbstate_t.h:
-
-/usr/include/sys/_types/_ct_rune_t.h:
-
-/usr/include/sys/_types/_rune_t.h:
-
-/usr/include/sys/_types/_wchar_t.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/stdarg.h:
-
-/usr/include/stdio.h:
-
-/usr/include/sys/_types/_va_list.h:
-
-/usr/include/sys/stdio.h:
+/usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/time.h:
 
-/usr/include/sys/_types/_clock_t.h:
+/usr/include/x86_64-linux-gnu/sys/select.h:
 
-/usr/include/_wctype.h:
+/usr/include/x86_64-linux-gnu/bits/select.h:
 
-/usr/include/sys/_types/_wint_t.h:
+/usr/include/x86_64-linux-gnu/bits/sigset.h:
 
-/usr/include/_types/_wctype_t.h:
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/alloca.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
+/usr/include/c++/4.8/bits/algorithmfwd.h:
+
+/usr/include/c++/4.8/bits/stl_heap.h:
+
+/usr/include/c++/4.8/bits/stl_tempbuf.h:
+
+/usr/include/c++/4.8/bits/stl_construct.h:
+
+/usr/include/c++/4.8/new:
+
+/usr/include/c++/4.8/exception:
+
+/usr/include/c++/4.8/bits/atomic_lockfree_defines.h:
+
+/usr/include/c++/4.8/ext/alloc_traits.h:
+
+/usr/include/c++/4.8/bits/allocator.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h:
+
+/usr/include/c++/4.8/ext/new_allocator.h:
+
+/usr/include/c++/4.8/bits/memoryfwd.h:
+
+/usr/include/c++/4.8/string:
+
+/usr/include/c++/4.8/bits/stringfwd.h:
+
+/usr/include/c++/4.8/bits/char_traits.h:
+
+/usr/include/c++/4.8/bits/postypes.h:
+
+/usr/include/c++/4.8/cwchar:
+
+/usr/include/wchar.h:
+
+/usr/include/stdio.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
+/usr/include/c++/4.8/bits/localefwd.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h:
+
+/usr/include/c++/4.8/clocale:
+
+/usr/include/locale.h:
+
+/usr/include/x86_64-linux-gnu/bits/locale.h:
+
+/usr/include/c++/4.8/iosfwd:
+
+/usr/include/c++/4.8/cctype:
 
 /usr/include/ctype.h:
 
-/usr/include/runetype.h:
+/usr/include/c++/4.8/bits/ostream_insert.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__debug:
+/usr/include/c++/4.8/bits/cxxabi_forced.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/tuple:
+/usr/include/c++/4.8/bits/stl_function.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/string:
+/usr/include/c++/4.8/backward/binders.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdio:
+/usr/include/c++/4.8/bits/range_access.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwchar:
+/usr/include/c++/4.8/bits/basic_string.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwctype:
+/usr/include/c++/4.8/ext/atomicity.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cctype:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h:
 
-/usr/include/wctype.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h:
 
-/usr/include/_types/_wctrans_t.h:
+/usr/include/pthread.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/stdexcept:
+/usr/include/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/timex.h:
+
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h:
+
+/usr/include/c++/4.8/bits/basic_string.tcc:
 
 snappy-stubs-internal.h:
 
 config.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iostream:
+/usr/include/c++/4.8/iostream:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ios:
+/usr/include/c++/4.8/ostream:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__locale:
+/usr/include/c++/4.8/ios:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/mutex:
+/usr/include/c++/4.8/bits/ios_base.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__mutex_base:
+/usr/include/c++/4.8/bits/locale_classes.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/chrono:
+/usr/include/c++/4.8/bits/locale_classes.tcc:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ctime:
+/usr/include/c++/4.8/streambuf:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ratio:
+/usr/include/c++/4.8/bits/streambuf.tcc:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/climits:
+/usr/include/c++/4.8/bits/basic_ios.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../lib/clang/7.0.0/include/limits.h:
+/usr/include/c++/4.8/bits/locale_facets.h:
 
-/usr/include/limits.h:
+/usr/include/c++/4.8/cwctype:
 
-/usr/include/machine/limits.h:
+/usr/include/wctype.h:
 
-/usr/include/i386/limits.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h:
 
-/usr/include/i386/_limits.h:
+/usr/include/c++/4.8/bits/streambuf_iterator.h:
 
-/usr/include/sys/syslimits.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/system_error:
+/usr/include/c++/4.8/bits/locale_facets.tcc:
 
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cerrno:
+/usr/include/c++/4.8/bits/basic_ios.tcc:
 
-/usr/include/errno.h:
+/usr/include/c++/4.8/bits/ostream.tcc:
 
-/usr/include/sys/errno.h:
+/usr/include/c++/4.8/istream:
 
-/usr/include/pthread.h:
-
-/usr/include/pthread/pthread_impl.h:
-
-/usr/include/pthread/sched.h:
-
-/usr/include/sys/_pthread/_pthread_attr_t.h:
-
-/usr/include/sys/_pthread/_pthread_cond_t.h:
-
-/usr/include/sys/_pthread/_pthread_condattr_t.h:
-
-/usr/include/sys/_pthread/_pthread_key_t.h:
-
-/usr/include/sys/_pthread/_pthread_mutex_t.h:
-
-/usr/include/sys/_pthread/_pthread_mutexattr_t.h:
-
-/usr/include/sys/_pthread/_pthread_once_t.h:
-
-/usr/include/sys/_pthread/_pthread_rwlock_t.h:
-
-/usr/include/sys/_pthread/_pthread_rwlockattr_t.h:
-
-/usr/include/sys/_pthread/_pthread_t.h:
-
-/usr/include/pthread/qos.h:
-
-/usr/include/sys/qos.h:
-
-/usr/include/sys/_types/_mach_port_t.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/functional:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_03:
-
-/usr/include/locale.h:
-
-/usr/include/_locale.h:
-
-/usr/include/xlocale.h:
-
-/usr/include/_xlocale.h:
-
-/usr/include/xlocale/_ctype.h:
-
-/usr/include/xlocale/__wctype.h:
-
-/usr/include/xlocale/_stdio.h:
-
-/usr/include/xlocale/_string.h:
-
-/usr/include/xlocale/_time.h:
-
-/usr/include/xlocale/_wchar.h:
-
-/usr/include/xlocale/_wctype.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/streambuf:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/istream:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ostream:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/locale:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdlib:
-
-/usr/include/stdlib.h:
-
-/usr/include/sys/wait.h:
-
-/usr/include/sys/_types/_id_t.h:
-
-/usr/include/sys/signal.h:
-
-/usr/include/machine/signal.h:
-
-/usr/include/i386/signal.h:
-
-/usr/include/machine/_mcontext.h:
-
-/usr/include/i386/_mcontext.h:
-
-/usr/include/mach/i386/_structs.h:
-
-/usr/include/sys/_types/_sigaltstack.h:
-
-/usr/include/sys/_types/_ucontext.h:
-
-/usr/include/sys/resource.h:
-
-/usr/include/machine/endian.h:
-
-/usr/include/i386/endian.h:
-
-/usr/include/sys/_endian.h:
-
-/usr/include/libkern/_OSByteOrder.h:
-
-/usr/include/libkern/i386/_OSByteOrder.h:
-
-/usr/include/alloca.h:
-
-/usr/include/machine/types.h:
-
-/usr/include/i386/types.h:
-
-/usr/include/xlocale/_stdlib.h:
-
-/usr/include/nl_types.h:
-
-/usr/include/sys/types.h:
-
-/usr/include/sys/_types/_blkcnt_t.h:
-
-/usr/include/sys/_types/_blksize_t.h:
-
-/usr/include/sys/_types/_in_addr_t.h:
-
-/usr/include/sys/_types/_in_port_t.h:
-
-/usr/include/sys/_types/_ino_t.h:
-
-/usr/include/sys/_types/_ino64_t.h:
-
-/usr/include/sys/_types/_key_t.h:
-
-/usr/include/sys/_types/_nlink_t.h:
-
-/usr/include/sys/_types/_fsblkcnt_t.h:
-
-/usr/include/sys/_types/_fsfilcnt_t.h:
-
-/usr/include/_types/_nl_item.h:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/bitset:
-
-/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__bit_reference:
+/usr/include/c++/4.8/bits/istream.tcc:
 
 /usr/include/assert.h:
 
-/usr/include/sys/mman.h:
+/usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/string3.h:
+
+/usr/include/x86_64-linux-gnu/sys/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-linux.h:
 
 snappy-stubs-public.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
+
+/usr/include/stdint.h:

@@ -1,12 +1,10 @@
-ERL_CFLAGS = -finline-functions -Wall -fPIC -I /usr/local/Cellar/erlang/18.1/lib/erlang/erts-7.1/include -I /usr/local/Cellar/erlang/18.1/lib/erlang/lib/erl_interface-3.8/include
-ERL_LDFLAGS = -L /usr/local/Cellar/erlang/18.1/lib/erlang/lib/erl_interface-3.8/lib -lerl_interface -lei
+ERL_CFLAGS = -finline-functions -Wall -fPIC -I /usr/lib/erlang/erts-7.0/include -I /usr/lib/erlang/lib/erl_interface-3.8/include
+ERL_LDFLAGS = -L /usr/lib/erlang/lib/erl_interface-3.8/lib -lerl_interface -lei
 
-DRV_LDFLAGS =  c_src/leveldb/libleveldb.a c_src/system/lib/libsnappy.a -lstdc++ -mmacosx-version-min=10.8
-DRV_CFLAGS =  -O3 -Wall -I c_src/leveldb/include -mmacosx-version-min=10.8
-CXXFLAGS =  -Wall -O3 -fPIC -mmacosx-version-min=10.8
-CFLAGS =  -Wall -O3 -fPIC -mmacosx-version-min=10.8
-
-LDFLAGS += -flat_namespace -undefined suppress
+CFLAGS =  -Wall -O3 -fPIC
+CXXFLAGS =  -Wall -O3 -fPIC
+DRV_CFLAGS =  -O3 -Wall -I c_src/leveldb/include
+DRV_LDFLAGS =  c_src/leveldb/libleveldb.a c_src/system/lib/libsnappy.a -lstdc++
 
 all:: priv/eleveldb.so
 
