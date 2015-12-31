@@ -3,4 +3,4 @@
               {vsn,"git"},
               {registered,[]},
               {applications,[kernel,stdlib]},
-              {modules, []}]}.
+              {modules, ['jiffy','jiffy_utf8']}]}.

@@ -3,5 +3,5 @@
               {vsn,"0.1.1"},
               {registered,[]},
               {applications,[kernel,stdlib]},
-              {modules, []},
+              {modules, ['mustache','mustache_ctx']},
               {env,[]}]}.

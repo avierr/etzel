@@ -14,10 +14,9 @@ init(_, Req, _Opts) ->
 handle(Req, State=#state{}) ->
 
     {ok, Menu} = file:read_file("ext/tpl/menu.html"),
-    {ok, Pro} = file:read_file("ext/tpl/projects.html"),
     {ok, Home} = file:read_file("ext/tpl/etzelhome.html"),
     {ok, Queuefuncs} = file:read_file("ext/tpl/queuefunc.html"),
-    Ctx = dict:from_list([{menu, binary_to_list(Menu)},{content,binary_to_list(Pro)},{queuefunc,binary_to_list(Queuefuncs)}]),
+    Ctx = dict:from_list([{menu, binary_to_list(Menu)},{queuefunc,binary_to_list(Queuefuncs)}]),
     Result=mustache:render(binary_to_list(Home), Ctx),
 
     {ok, Req2} = cowboy_req:reply(200,

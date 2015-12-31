@@ -1,0 +1,29 @@
+<div class="container">
+<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Create a new Queue">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+</div>
+<br>
+<div id="dynamicList" class="container">
+</div>
+
+       <script type="text/javascript">
+   $(document).ready(function() {
+    var data={'queues': [{'id': '0', 'Name': 'blabla'}, {'id': '0', 'Name': 'blabla'}]}
+    // $.get( "/url", function( result ) {
+     // data=JSON.parse(result);
+            $('#dynamicList').append("<div id='cList' class='list-group'></div>");
+            for (i = 0; i < data.queues.length; i++) {
+                $("#cList").append("<a href='/queue_func?queue="+data.queues[i].Name+"' class='list-group-item'>" +data.queues[i].Name + "<span class='pull-right'> <button class='btn btn-xs btn-warning'> <span class='glyphicon glyphicon-trash'> </span> </button> </span> </a>");
+            }
+        // });
+     });
+</script>
+

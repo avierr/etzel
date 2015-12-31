@@ -1,0 +1,30 @@
+2016/01/01-00:36:57.875600 7fb6a8fe1700             Options.comparator: leveldb.InternalKeyComparator
+2016/01/01-00:36:57.875676 7fb6a8fe1700      Options.create_if_missing: 1
+2016/01/01-00:36:57.875686 7fb6a8fe1700        Options.error_if_exists: 0
+2016/01/01-00:36:57.875694 7fb6a8fe1700        Options.paranoid_checks: 0
+2016/01/01-00:36:57.875702 7fb6a8fe1700     Options.verify_compactions: 1
+2016/01/01-00:36:57.875710 7fb6a8fe1700                    Options.env: 0x7fb6d0007e20
+2016/01/01-00:36:57.875717 7fb6a8fe1700               Options.info_log: 0x7fb68c0027a0
+2016/01/01-00:36:57.875725 7fb6a8fe1700      Options.write_buffer_size: 20971520
+2016/01/01-00:36:57.875733 7fb6a8fe1700         Options.max_open_files: 1000
+2016/01/01-00:36:57.875740 7fb6a8fe1700            Options.block_cache: 0x7fb68c0018d0
+2016/01/01-00:36:57.875748 7fb6a8fe1700             Options.block_size: 4096
+2016/01/01-00:36:57.875755 7fb6a8fe1700       Options.block_size_steps: 16
+2016/01/01-00:36:57.875763 7fb6a8fe1700 Options.block_restart_interval: 16
+2016/01/01-00:36:57.875770 7fb6a8fe1700            Options.compression: 1
+2016/01/01-00:36:57.875777 7fb6a8fe1700          Options.filter_policy: NULL
+2016/01/01-00:36:57.875785 7fb6a8fe1700              Options.is_repair: false
+2016/01/01-00:36:57.875793 7fb6a8fe1700         Options.is_internal_db: false
+2016/01/01-00:36:57.875800 7fb6a8fe1700      Options.total_leveldb_mem: 0
+2016/01/01-00:36:57.875808 7fb6a8fe1700  Options.block_cache_threshold: 33554432
+2016/01/01-00:36:57.875815 7fb6a8fe1700  Options.limited_developer_mem: false
+2016/01/01-00:36:57.875822 7fb6a8fe1700              Options.mmap_size: 0
+2016/01/01-00:36:57.875830 7fb6a8fe1700       Options.delete_threshold: 1000
+2016/01/01-00:36:57.875837 7fb6a8fe1700       Options.fadvise_willneed: false
+2016/01/01-00:36:57.875845 7fb6a8fe1700      Options.tiered_slow_level: 0
+2016/01/01-00:36:57.875852 7fb6a8fe1700     Options.tiered_fast_prefix: ldt
+2016/01/01-00:36:57.875859 7fb6a8fe1700     Options.tiered_slow_prefix: ldt
+2016/01/01-00:36:57.875867 7fb6a8fe1700                         crc32c: software
+2016/01/01-00:36:57.875875 7fb6a8fe1700                File cache size: 186642432
+2016/01/01-00:36:57.875882 7fb6a8fe1700               Block cache size: 188739584
+2016/01/01-00:36:58.036156 7fb6a8fe1700 Delete type=3 #1
