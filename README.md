@@ -2,7 +2,7 @@
 
 ![Etzel Build Status](https://travis-ci.org/evnix/etzel.svg?branch=master)
 
-Website: http://etzelserver.aviscript.ml
+For Website & Docs: http://etzelserver.aviscript.ml
 
 A Fast & Reliable open source Job delegation & queueing server.
 
@@ -26,6 +26,7 @@ Disk Logging
 
 ````
 
+## Tests
 
 ````
 > cd test
